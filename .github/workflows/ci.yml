@@ -23,16 +23,15 @@ env:
 jobs:
   test:
     runs-on: [self-hosted, Linux, X64]
-    services:
-      mongo:
-        image: mongo:8.0
-        ports:
-          - 27017:27017
-        options: >-
-          --health-cmd "mongosh --eval 'db.runCommand({ping:1})'"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+    # NOTE: We intentionally do NOT use `services:` here. On the shared
+    # self-hosted runner host, the Actions runner auto-creates a bridge
+    # network for service containers, drawing a subnet from Docker's default
+    # address pool. That host runs ~96 runners alongside dozens of long-lived
+    # stacks and the default pool is nearly exhausted, so concurrent jobs
+    # intermittently fail with "all predefined address pools have been fully
+    # subnetted". Running Mongo manually on `--network host` (the smoke test
+    # already uses host networking) means this job creates ZERO new Docker
+    # networks, sidestepping pool exhaustion entirely.
     steps:
       - uses: actions/checkout@v6
       - uses: docker/setup-buildx-action@v4
@@ -44,23 +43,50 @@ jobs:
           tags: genieacs:test
           cache-from: type=gha
           cache-to: type=gha,mode=max
+      - name: Prune dangling Docker networks (self-heal shared host)
+        run: docker network prune -f || true
+      - name: Start MongoDB (host network, no new bridge network)
+        run: |
+          docker run -d --name mongo-genieacs-test --network host \
+            mongo:8.0
+          echo "Waiting for MongoDB to become healthy..."
+          for i in $(seq 1 30); do
+            if docker exec mongo-genieacs-test \
+                mongosh --quiet --eval 'db.runCommand({ ping: 1 })' > /dev/null 2>&1; then
+              echo "MongoDB is responding on port 27017"
+              break
+            fi
+            if [ "$i" -eq 30 ]; then
+              echo "MongoDB failed to start within 60s"
+              docker logs mongo-genieacs-test
+              exit 1
+            fi
+            sleep 2
+          done
       - name: Smoke test
         run: |
           docker run -d --name genieacs --network host \
             -e GENIEACS_MONGODB_CONNECTION_URL=mongodb://localhost:27017 \
             genieacs:test
-          for i in $(seq 1 30); do
+          # The shared self-hosted host can be heavily loaded, so container
+          # startup alone may take ~60s before GenieACS even spawns. Poll
+          # generously (90 x 2s = 180s) to avoid false failures.
+          for i in $(seq 1 90); do
             if curl -sf http://localhost:3000 > /dev/null 2>&1; then
               echo "GenieACS UI is responding on port 3000"
               exit 0
             fi
             sleep 2
           done
-          echo "GenieACS failed to start within 60s"
+          echo "GenieACS failed to start within 180s"
           docker logs genieacs
           exit 1
-      - if: always()
-        run: docker rm -f genieacs 2>/dev/null || true
+      - name: Cleanup
+        if: always()
+        run: |
+          docker rm -f genieacs 2>/dev/null || true
+          docker rm -f mongo-genieacs-test 2>/dev/null || true
+          docker network prune -f 2>/dev/null || true
 
   release:
     needs: test
