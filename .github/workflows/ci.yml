@@ -68,14 +68,17 @@ jobs:
           docker run -d --name genieacs --network host \
             -e GENIEACS_MONGODB_CONNECTION_URL=mongodb://localhost:27017 \
             genieacs:test
-          for i in $(seq 1 30); do
+          # The shared self-hosted host can be heavily loaded, so container
+          # startup alone may take ~60s before GenieACS even spawns. Poll
+          # generously (90 x 2s = 180s) to avoid false failures.
+          for i in $(seq 1 90); do
             if curl -sf http://localhost:3000 > /dev/null 2>&1; then
               echo "GenieACS UI is responding on port 3000"
               exit 0
             fi
             sleep 2
           done
-          echo "GenieACS failed to start within 60s"
+          echo "GenieACS failed to start within 180s"
           docker logs genieacs
           exit 1
       - name: Cleanup
