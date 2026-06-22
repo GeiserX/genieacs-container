@@ -23,6 +23,10 @@ env:
 jobs:
   test:
     runs-on: [self-hosted, Linux, X64]
+    # Do not run untrusted fork PR code on the self-hosted runner.
+    if: >-
+      github.event_name != 'pull_request' ||
+      github.event.pull_request.head.repo.full_name == github.repository
     # NOTE: We intentionally do NOT use `services:` here. On the shared
     # self-hosted runner host, the Actions runner auto-creates a bridge
     # network for service containers, drawing a subnet from Docker's default
@@ -121,6 +125,10 @@ jobs:
   build-amd64:
     needs: release
     runs-on: [self-hosted, Linux, X64]
+    # Do not run untrusted fork PR code on the self-hosted runner.
+    if: >-
+      github.event_name != 'pull_request' ||
+      github.event.pull_request.head.repo.full_name == github.repository
     permissions:
       contents: read
       packages: write
@@ -145,6 +153,10 @@ jobs:
   build-arm64:
     needs: release
     runs-on: [self-hosted, Linux, ARM64]
+    # Do not run untrusted fork PR code on the self-hosted runner.
+    if: >-
+      github.event_name != 'pull_request' ||
+      github.event.pull_request.head.repo.full_name == github.repository
     permissions:
       contents: read
       packages: write
@@ -169,6 +181,10 @@ jobs:
   manifest:
     needs: [release, build-amd64, build-arm64]
     runs-on: [self-hosted, Linux, X64]
+    # Do not run untrusted fork PR code on the self-hosted runner.
+    if: >-
+      github.event_name != 'pull_request' ||
+      github.event.pull_request.head.repo.full_name == github.repository
     permissions:
       contents: write
       packages: write
