@@ -22,11 +22,7 @@ env:
 
 jobs:
   test:
-    runs-on: [self-hosted, Linux, X64]
-    # Do not run untrusted fork PR code on the self-hosted runner.
-    if: >-
-      github.event_name != 'pull_request' ||
-      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
     # NOTE: We intentionally do NOT use `services:` here. On the shared
     # self-hosted runner host, the Actions runner auto-creates a bridge
     # network for service containers, drawing a subnet from Docker's default
@@ -95,7 +91,7 @@ jobs:
   release:
     needs: test
     if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
-    runs-on: [self-hosted, Linux, X64]
+    runs-on: ubuntu-latest
     permissions:
       contents: write
       packages: write
@@ -124,11 +120,7 @@ jobs:
 
   build-amd64:
     needs: release
-    runs-on: [self-hosted, Linux, X64]
-    # Do not run untrusted fork PR code on the self-hosted runner.
-    if: >-
-      github.event_name != 'pull_request' ||
-      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
@@ -152,11 +144,7 @@ jobs:
 
   build-arm64:
     needs: release
-    runs-on: [self-hosted, Linux, ARM64]
-    # Do not run untrusted fork PR code on the self-hosted runner.
-    if: >-
-      github.event_name != 'pull_request' ||
-      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
@@ -180,11 +168,7 @@ jobs:
 
   manifest:
     needs: [release, build-amd64, build-arm64]
-    runs-on: [self-hosted, Linux, X64]
-    # Do not run untrusted fork PR code on the self-hosted runner.
-    if: >-
-      github.event_name != 'pull_request' ||
-      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
     permissions:
       contents: write
       packages: write
