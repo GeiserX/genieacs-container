@@ -175,12 +175,10 @@
           "minItems": 1,
           "items": {
             "type": "object",
-            "minProperties": 1,
             "additionalProperties": false,
             "properties": {
               "path": {
                 "type": "object",
-                "required": ["type", "value"],
                 "additionalProperties": false,
                 "properties": {
                   "type": {
@@ -191,7 +189,37 @@
                     "type": "string",
                     "maxLength": 1024
                   }
-                }
+                },
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "type": {
+                          "enum": ["Exact", "PathPrefix"]
+                        }
+                      }
+                    },
+                    "then": {
+                      "properties": {
+                        "value": {
+                          "pattern": "^/",
+                          "allOf": [
+                            {
+                              "pattern": "^(?:[-A-Za-z0-9/._~!$&'()*+,;=:@]|[%][0-9a-fA-F]{2})+$"
+                            },
+                            { "not": { "pattern": "//" } },
+                            { "not": { "pattern": "/\\./" } },
+                            { "not": { "pattern": "/\\.\\./" } },
+                            { "not": { "pattern": "%2[fF]" } },
+                            { "not": { "pattern": "#" } },
+                            { "not": { "pattern": "/\\.\\.$" } },
+                            { "not": { "pattern": "/\\.$" } }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
               },
               "method": {
                 "type": "string",

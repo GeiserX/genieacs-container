@@ -193,7 +193,7 @@ ingress:
 
 # Kubernetes Gateway API alternative to `ingress` (requires the
 # Gateway API CRDs and a Gateway controller in the cluster).
-# `parentRefs` and `matches` are both required when enabled.
+# Only `parentRefs` is required when enabled.
 httpRoute:
   enabled: false
   parentRefs: []
@@ -202,6 +202,8 @@ httpRoute:
   #   sectionName: https
   hostnames:
     - genieacs.local
+  # Optional. Omit to match every request. Besides `path`, each entry
+  # accepts `method`, `headers` and `queryParams`.
   matches:
     - path:
         type: PathPrefix
