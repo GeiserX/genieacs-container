@@ -135,7 +135,7 @@
             "required": ["enabled"]
           },
           "then": {
-            "required": ["parentRefs"],
+            "required": ["parentRefs", "matches"],
             "properties": {
               "parentRefs": {
                 "minItems": 1

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## Helm Chart [0.5.0] - 2026-08-01
+
+### Added
+- **Gateway API `HTTPRoute` support** — the UI service can now be exposed through a Gateway API `HTTPRoute` as an alternative to `Ingress`. Disabled by default; set `httpRoute.enabled=true` and provide `httpRoute.parentRefs`. Supports `annotations`, `parentRefs`, `hostnames`, and path `matches` (#60, thanks @mool)
+- **`values.schema.json` validation for `httpRoute`** — enabling the route without `parentRefs` or `matches` now fails at template time with a clear message instead of rendering an unusable resource
+- **NOTES.txt lists both access paths** — Ingress and HTTPRoute hosts are now printed separately when either is enabled
+
 ## Helm Chart [0.3.4] - 2026-03-31
 
 ### Fixed

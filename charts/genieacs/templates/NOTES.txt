@@ -16,6 +16,8 @@ GenieACS has been deployed successfully!
    HTTPRoute host/path:
    {{- range .Values.httpRoute.hostnames }}
      {{ . }}{{ (index $.Values.httpRoute.matches 0).path.value }}
+   {{- else }}
+     (any hostname accepted by the Gateway listener){{ (index $.Values.httpRoute.matches 0).path.value }}
    {{- end }}
    {{- end }}
 {{- else }}
