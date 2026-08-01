@@ -13,9 +13,9 @@ GenieACS has been deployed successfully!
    {{- end }}
 
    {{- if .Values.httpRoute.enabled }}
-   HTTPRoute:
+   HTTPRoute host/path:
    {{- range .Values.httpRoute.hostnames }}
-     http://{{ . }}{{ (index $.Values.httpRoute.matches 0).path.value }}
+     {{ . }}{{ (index $.Values.httpRoute.matches 0).path.value }}
    {{- end }}
    {{- end }}
 {{- else }}
