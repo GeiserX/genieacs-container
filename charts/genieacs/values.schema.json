@@ -153,6 +153,7 @@
         },
         "parentRefs": {
           "type": "array",
+          "uniqueItems": true,
           "items": {
             "type": "object",
             "required": ["name"],

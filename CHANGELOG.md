@@ -5,12 +5,15 @@ All notable changes to this project will be documented in this file.
 ## Helm Chart [0.5.1] - 2026-08-01
 
 ### Fixed
-- **`httpRoute.matches` no longer requires a `path`** — Gateway API's `HTTPRouteMatch` has no required fields, so header, method, and query-parameter matches are all valid on their own. The chart schema demanded `path` and hard-blocked those configurations even though the template rendered them correctly. `headers`, `method`, and `queryParams` are now validated explicitly, and each match must still carry at least one criterion
-- **`httpRoute.matches` is optional again** — omitting it is legitimate Gateway API usage meaning "match every request". The template now guards the field instead of requiring it, so `matches: null` renders a valid resource rather than emitting `matches: null` (which the CRD rejects, since the field is optional but not nullable)
-- **`httpRoute.matches` now mirrors the Gateway API v1 contract exactly** — unknown fields are rejected instead of being passed through to the apiserver, and `method`, `path.type` and the header/query `type` fields are validated against their real enums, with the upstream length limits and header-name pattern applied. Previously a typo such as `method: FETCH` or a stray key passed chart validation and failed only at apply time
-- **`path.type` and `path.value` are optional, and empty match objects are allowed** — both fields have upstream defaults (`PathPrefix` and `/`), so `matches: [{}]` and `path: {value: /api}` are valid Gateway API that the chart previously rejected
-- **Path values are checked against the upstream path rules** — for `Exact` and `PathPrefix` matches, values must be absolute and normalized, so `api`, `/a//b`, `/a/../b`, `/a%2fb` and `/a#b` are caught at template time rather than by the apiserver. `RegularExpression` matches are deliberately exempt
-- **NOTES.txt no longer crashes on a match without a path** — the rendered hint falls back to `/`, which is the Gateway API default when no path match is given
+
+The `httpRoute` schema introduced in 0.5.0 diverged from the Gateway API in both
+directions — it rejected valid routing configurations and accepted invalid ones.
+It now mirrors the upstream `HTTPRoute` v1 contract.
+
+- **Valid routing that the chart used to reject** — `HTTPRouteMatch` has no required fields, so `headers`, `method` and `queryParams` matches are each usable on their own; `matches` itself is optional and omitting it means "match every request"; and `path.type`/`path.value` have upstream defaults (`PathPrefix`, `/`), so `matches: [{}]` and `path: {value: /api}` are legitimate. All of these were previously blocked, and `matches: null` rendered a literal `matches: null` that the CRD refuses
+- **Invalid configuration that the chart used to accept** — unknown fields are rejected rather than forwarded to the apiserver; `method`, `path.type` and the header/query `type` fields are checked against their real enums; upstream length limits, item limits and the header-name pattern are applied; and duplicate `parentRefs` entries are caught. A typo such as `method: FETCH` previously passed chart validation and failed only at apply time
+- **Path values follow the upstream normalization rules** — for `Exact` and `PathPrefix` matches, values must be absolute and normalized, so `api`, `/a//b`, `/a/../b`, `/a%2fb` and `/a#b` are now caught at template time. These rules live in the CRD's CEL validations rather than its OpenAPI schema. `RegularExpression` matches are deliberately exempt
+- **NOTES.txt no longer crashes on a match without a path** — the rendered hint falls back to `/`, the Gateway API default when no path match is given
 - **NOTES.txt no longer crashes on an ingress host without `paths`** — pre-existing since 0.2.0; `helm install --set-json 'ingress.hosts=[{"host":"acs.example.com"}]'` failed with `index of untyped nil` instead of deploying
 
 ## Helm Chart [0.5.0] - 2026-08-01
