@@ -191,6 +191,22 @@ ingress:
   enabled: false
   className: ""  # e.g. "nginx", "traefik"
 
+# Kubernetes Gateway API alternative to `ingress` (requires the
+# Gateway API CRDs and a Gateway controller in the cluster).
+# `parentRefs` and `matches` are both required when enabled.
+httpRoute:
+  enabled: false
+  parentRefs: []
+  # - name: my-gateway
+  #   namespace: gateway-system
+  #   sectionName: https
+  hostnames:
+    - genieacs.local
+  matches:
+    - path:
+        type: PathPrefix
+        value: /
+
 env:
   GENIEACS_UI_JWT_SECRET: changeme
 

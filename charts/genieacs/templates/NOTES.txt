@@ -2,14 +2,26 @@ GenieACS has been deployed successfully!
 
 1. To access the GenieACS UI, follow these instructions:
 
-{{- if .Values.ingress.enabled }}
-   The GenieACS UI is accessible at:
+{{- if or .Values.ingress.enabled .Values.httpRoute.enabled }}
+   The GenieACS UI is accessible through the configured route resource(s):
 
+   {{- if .Values.ingress.enabled }}
+   Ingress:
    {{- range .Values.ingress.hosts }}
      http{{ if $.Values.ingress.tls }}s{{ end }}://{{ .host }}{{ (index .paths 0).path }}
    {{- end }}
+   {{- end }}
+
+   {{- if .Values.httpRoute.enabled }}
+   HTTPRoute host/path:
+   {{- range .Values.httpRoute.hostnames }}
+     {{ . }}{{ (index $.Values.httpRoute.matches 0).path.value }}
+   {{- else }}
+     (any hostname accepted by the Gateway listener){{ (index $.Values.httpRoute.matches 0).path.value }}
+   {{- end }}
+   {{- end }}
 {{- else }}
-   NOTE: The ingress is disabled, and you might need to use port-forwarding to access the UI.
+   NOTE: The ingress and HTTPRoute are disabled, and you might need to use port-forwarding to access the UI.
 
    Run the following command to forward the port:
 
