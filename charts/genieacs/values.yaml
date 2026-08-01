@@ -32,6 +32,17 @@ ingress:
           pathType: ImplementationSpecific
   tls: []
 
+httpRoute:
+  enabled: false
+  annotations: {}
+  parentRefs: []
+  hostnames:
+    - genieacs.local
+  matches:
+    - path:
+        type: PathPrefix
+        value: /
+
 env:
   GENIEACS_UI_JWT_SECRET: changeme
   GENIEACS_CWMP_ACCESS_LOG_FILE: /var/log/genieacs/genieacs-cwmp-access.log
