@@ -19,9 +19,11 @@ spec:
     {{- toYaml . | nindent 4 }}
   {{- end }}
   rules:
-    - matches:
-        {{- toYaml .Values.httpRoute.matches | nindent 8 }}
-      backendRefs:
+    - backendRefs:
         - name: {{ include "genieacs.fullname" . }}-http
           port: {{ .Values.service_http.port_http }}
+      {{- with .Values.httpRoute.matches }}
+      matches:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
 {{- end }}

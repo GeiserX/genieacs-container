@@ -8,16 +8,22 @@ GenieACS has been deployed successfully!
    {{- if .Values.ingress.enabled }}
    Ingress:
    {{- range .Values.ingress.hosts }}
-     http{{ if $.Values.ingress.tls }}s{{ end }}://{{ .host }}{{ (index .paths 0).path }}
+     http{{ if $.Values.ingress.tls }}s{{ end }}://{{ .host }}{{ with .paths }}{{ (index . 0).path }}{{ end }}
    {{- end }}
    {{- end }}
 
    {{- if .Values.httpRoute.enabled }}
+   {{- $path := "/" }}
+   {{- with .Values.httpRoute.matches }}
+   {{- with (index . 0).path }}
+   {{- $path = .value | default "/" }}
+   {{- end }}
+   {{- end }}
    HTTPRoute host/path:
    {{- range .Values.httpRoute.hostnames }}
-     {{ . }}{{ (index $.Values.httpRoute.matches 0).path.value }}
+     {{ . }}{{ $path }}
    {{- else }}
-     (any hostname accepted by the Gateway listener){{ (index $.Values.httpRoute.matches 0).path.value }}
+     (any hostname accepted by the Gateway listener){{ $path }}
    {{- end }}
    {{- end }}
 {{- else }}

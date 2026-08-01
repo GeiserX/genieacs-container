@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## Helm Chart [0.5.1] - 2026-08-01
+
+### Fixed
+- **`httpRoute.matches` no longer requires a `path`** — Gateway API's `HTTPRouteMatch` has no required fields, so header, method, and query-parameter matches are all valid on their own. The chart schema demanded `path` and hard-blocked those configurations even though the template rendered them correctly. `headers`, `method`, and `queryParams` are now validated explicitly, and each match must still carry at least one criterion
+- **`httpRoute.matches` is optional again** — omitting it is legitimate Gateway API usage meaning "match every request". The template now guards the field instead of requiring it, so `matches: null` renders a valid resource rather than emitting `matches: null` (which the CRD rejects, since the field is optional but not nullable)
+- **NOTES.txt no longer crashes on a match without a path** — the rendered hint falls back to `/`, which is the Gateway API default when no path match is given
+- **NOTES.txt no longer crashes on an ingress host without `paths`** — pre-existing since 0.2.0; `helm install --set-json 'ingress.hosts=[{"host":"acs.example.com"}]'` failed with `index of untyped nil` instead of deploying
+
 ## Helm Chart [0.5.0] - 2026-08-01
 
 ### Added
