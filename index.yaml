@@ -5,6 +5,36 @@ entries:
       category: Infrastructure
     apiVersion: v2
     appVersion: 1.2.16.0
+    created: "2026-08-01T12:34:09.632001825Z"
+    dependencies:
+    - condition: mongodb.enabled
+      name: mongodb
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 18.6.0
+    description: A Helm chart for GenieACS - an open-source implementation of TR-069
+      ACS
+    digest: 51aac363e2993657c600179e4e5482fda0bc1888c98155bc5ea988992cea47ba
+    home: https://genieacs.com
+    keywords:
+    - genieacs
+    - tr-069
+    - acs
+    - cpe
+    - device-management
+    maintainers:
+    - email: acsdesk@protonmail.com
+      name: Sergio Fernandez
+    name: genieacs
+    sources:
+    - https://github.com/genieacs/genieacs
+    type: application
+    urls:
+    - https://github.com/GeiserX/genieacs-container/releases/download/genieacs-0.5.0/genieacs-0.5.0.tgz
+    version: 0.5.0
+  - annotations:
+      category: Infrastructure
+    apiVersion: v2
+    appVersion: 1.2.16.0
     created: "2026-05-18T13:30:19.01547276Z"
     dependencies:
     - condition: mongodb.enabled
@@ -296,4 +326,4 @@ entries:
     urls:
     - https://github.com/GeiserX/genieacs-docker/releases/download/genieacs-0.1.3/genieacs-0.1.3.tgz
     version: 0.1.3
-generated: "2026-05-18T13:30:19.015495533Z"
+generated: "2026-08-01T12:34:09.632057089Z"
