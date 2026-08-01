@@ -135,7 +135,7 @@
             "required": ["enabled"]
           },
           "then": {
-            "required": ["parentRefs", "matches"],
+            "required": ["parentRefs"],
             "properties": {
               "parentRefs": {
                 "minItems": 1
@@ -153,6 +153,7 @@
         },
         "parentRefs": {
           "type": "array",
+          "uniqueItems": true,
           "items": {
             "type": "object",
             "required": ["name"],
@@ -175,17 +176,117 @@
           "minItems": 1,
           "items": {
             "type": "object",
-            "required": ["path"],
+            "additionalProperties": false,
             "properties": {
               "path": {
                 "type": "object",
-                "required": ["type", "value"],
+                "additionalProperties": false,
                 "properties": {
                   "type": {
-                    "type": "string"
+                    "type": "string",
+                    "enum": ["Exact", "PathPrefix", "RegularExpression"]
                   },
                   "value": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 1024
+                  }
+                },
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "type": {
+                          "enum": ["Exact", "PathPrefix"]
+                        }
+                      }
+                    },
+                    "then": {
+                      "properties": {
+                        "value": {
+                          "pattern": "^/",
+                          "allOf": [
+                            {
+                              "pattern": "^(?:[-A-Za-z0-9/._~!$&'()*+,;=:@]|[%][0-9a-fA-F]{2})+$"
+                            },
+                            { "not": { "pattern": "//" } },
+                            { "not": { "pattern": "/\\./" } },
+                            { "not": { "pattern": "/\\.\\./" } },
+                            { "not": { "pattern": "%2[fF]" } },
+                            { "not": { "pattern": "#" } },
+                            { "not": { "pattern": "/\\.\\.$" } },
+                            { "not": { "pattern": "/\\.$" } }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "method": {
+                "type": "string",
+                "enum": [
+                  "GET",
+                  "HEAD",
+                  "POST",
+                  "PUT",
+                  "DELETE",
+                  "CONNECT",
+                  "OPTIONS",
+                  "TRACE",
+                  "PATCH"
+                ]
+              },
+              "headers": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 16,
+                "items": {
+                  "type": "object",
+                  "required": ["name", "value"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": ["Exact", "RegularExpression"]
+                    },
+                    "name": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 256,
+                      "pattern": "^[A-Za-z0-9!#$%&'*+\\-.^_`|~]+$"
+                    },
+                    "value": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 4096
+                    }
+                  }
+                }
+              },
+              "queryParams": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 16,
+                "items": {
+                  "type": "object",
+                  "required": ["name", "value"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": ["Exact", "RegularExpression"]
+                    },
+                    "name": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 256,
+                      "pattern": "^[A-Za-z0-9!#$%&'*+\\-.^_`|~]+$"
+                    },
+                    "value": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 1024
+                    }
                   }
                 }
               }

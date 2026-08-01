@@ -2,7 +2,7 @@ apiVersion: v2
 name: genieacs
 description: A Helm chart for GenieACS - an open-source implementation of TR-069 ACS
 type: application
-version: 0.5.0
+version: 0.5.1
 appVersion: "1.2.16.0"
 keywords:
   - genieacs
