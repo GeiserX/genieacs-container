@@ -10,6 +10,15 @@ on:
       - '.github/workflows/release-chart.yml'
   workflow_dispatch:
 
+# One chart release at a time per ref. GitHub keeps only one pending job per
+# concurrency group, so without this a second chart release could wait on
+# `gh-pages` beside a docs deploy and cancel it, or be cancelled by it. A newer
+# run still covers a cancelled one: chart-releaser releases every chart changed
+# since the last release tag.
+concurrency:
+  group: chart-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   release:
     permissions:
