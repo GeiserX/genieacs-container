@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## Helm Chart [0.5.2] - 2026-09-29
+
+### Changed
+- **GenieACS image 1.2.16.6** - the chart and `docker-compose.yml` pointed at `1.2.16.0`, six builds behind the newest image on Docker Hub. `image.tag` and `appVersion` are now `1.2.16.6`
+- **Bundled MongoDB pinned by digest** - `bitnami/mongodb` publishes only `latest`, so every install pulled whatever build was current. The subchart image is now pinned to one digest (MongoDB 8.3.11); override `mongodb.image.digest` to move on
+- **`helm test` image pinned** - the connection test uses `busybox:1.37.0` instead of `busybox:latest`
+- **Compose profiles pinned** - the `testing` and `mcp` profile services use `genieacs-sim-container:1.0.1` and `genieacs-mcp:v0.3.3` instead of `latest`
+
 ## Helm Chart [0.5.1] - 2026-08-01
 
 ### Fixed

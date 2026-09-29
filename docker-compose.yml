@@ -5,7 +5,7 @@ services:
     depends_on:
       mongo:
         condition: service_healthy
-    image: drumsergio/genieacs:1.2.16.0
+    image: drumsergio/genieacs:1.2.16.6
     restart: unless-stopped
     container_name: genieacs
     environment:
@@ -66,7 +66,7 @@ services:
     depends_on:
       genieacs:
         condition: service_healthy
-    image: drumsergio/genieacs-sim-container:latest
+    image: drumsergio/genieacs-sim-container:1.0.1
     container_name: genieacs-sim
     restart: unless-stopped
     networks:
@@ -80,7 +80,7 @@ services:
     depends_on:
       genieacs:
         condition: service_healthy
-    image: drumsergio/genieacs-mcp:latest
+    image: drumsergio/genieacs-mcp:v0.3.3
     container_name: genieacs-mcp
     restart: unless-stopped
     environment:

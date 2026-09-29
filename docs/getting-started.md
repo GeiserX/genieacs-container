@@ -1,43 +1,27 @@
-# Installation
+# Getting started
 
-## Quick start
-
-### Docker Compose
-
-The fastest way to get started:
-
-```bash
-docker compose up -d
-```
-
-This will start:
-- GenieACS (ports 7547, 7557, 7567, 3000)
-- MongoDB (internal port 27017)
-
-Access the GenieACS UI at: http://localhost:3000
-
-### Docker Run
-
-```bash
-docker run -d \
-  --name genieacs \
-  -p 7547:7547 \
-  -p 7557:7557 \
-  -p 7567:7567 \
-  -p 3000:3000 \
-  -e GENIEACS_MONGODB_CONNECTION_URL=mongodb://your-mongo-host/genieacs \
-  -e GENIEACS_UI_JWT_SECRET=your-secret-here \
-  drumsergio/genieacs:1.2.16.0
-```
+Three ways to run it: Docker Compose (GenieACS plus MongoDB on one host), `docker run` against a MongoDB
+you already have, or the Helm chart on Kubernetes. The image is `drumsergio/genieacs` on Docker Hub, for
+amd64 and arm64.
 
 ## Docker Compose
 
-The included `docker-compose.yml` provides a complete stack with GenieACS and MongoDB:
+The repository's `docker-compose.yml` runs GenieACS and MongoDB together. Fetch it and start the stack:
 
 ```bash
-# Start all services
+curl -fsSLO https://raw.githubusercontent.com/GeiserX/genieacs-container/main/docker-compose.yml
 docker compose up -d
+```
 
+This starts GenieACS (ports 7547, 7557, 7567 and 3000) and MongoDB (port 27017, inside the Compose network
+only). GenieACS waits for MongoDB to report healthy, so the UI takes about 30 seconds to come up. What
+working looks like: http://localhost:3000 opens the GenieACS UI, and `docker compose ps` shows `genieacs`
+as `healthy`.
+
+Before you expose it, change `GENIEACS_UI_JWT_SECRET` in the file from `changeme`, and turn on MongoDB
+authentication; the commented lines in the file show how.
+
+```bash
 # View logs
 docker compose logs -f genieacs
 
@@ -48,9 +32,26 @@ docker compose down
 docker compose down -v
 ```
 
-**Optional Services:**
-- `genieacs-sim`: Testing simulator (use `--profile testing`)
-- `genieacs-mcp`: MCP Server (use `--profile mcp`)
+Two optional services sit behind profiles:
+
+- `genieacs-sim`: a simulated CPE for testing, `docker compose --profile testing up -d`
+- `genieacs-mcp`: the MCP server, `docker compose --profile mcp up -d`
+
+## Docker run
+
+With a MongoDB you already run:
+
+```bash
+docker run -d \
+  --name genieacs \
+  -p 7547:7547 \
+  -p 7557:7557 \
+  -p 7567:7567 \
+  -p 3000:3000 \
+  -e GENIEACS_MONGODB_CONNECTION_URL=mongodb://your-mongo-host/genieacs \
+  -e GENIEACS_UI_JWT_SECRET=your-secret-here \
+  drumsergio/genieacs:1.2.16.6
+```
 
 ## Kubernetes with Helm
 
@@ -124,7 +125,7 @@ Secret (MongoDB Atlas Operator, MongoDB Controllers for Kubernetes
 
 ### Using Helmfile
 
-See the [examples directory](../examples/) for a complete Helmfile deployment example:
+See the [examples directory](https://github.com/GeiserX/genieacs-container/tree/main/examples) for a complete Helmfile deployment example:
 
 ```bash
 helmfile -f examples/helmfile.yaml apply
@@ -137,7 +138,7 @@ Key configuration options in `values.yaml`:
 ```yaml
 image:
   repository: drumsergio/genieacs
-  tag: "1.2.16.0"
+  tag: "1.2.16.6"
 
 replicaCount: 1
 
@@ -204,4 +205,4 @@ resources:
     memory: 2Gi
 ```
 
-For complete configuration options, see [charts/genieacs/values.yaml](../charts/genieacs/values.yaml).
+For complete configuration options, see [charts/genieacs/values.yaml](https://github.com/GeiserX/genieacs-container/blob/main/charts/genieacs/values.yaml).
