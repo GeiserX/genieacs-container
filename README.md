@@ -1,9 +1,5 @@
 <p align="center">
-  <img src="docs/images/banner.svg" alt="GenieACS Container banner" width="900"/>
-</p>
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/GeiserX/genieacs-container/main/extra/logo.png" width="100"/>
+  <img src="https://raw.githubusercontent.com/GeiserX/genieacs-container/main/docs/images/banner.svg" alt="GenieACS Container banner" width="900"/>
 </p>
 
 <h1 align="center">GenieACS Container</h1>
