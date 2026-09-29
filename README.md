@@ -40,11 +40,11 @@ helm install genieacs genieacs/genieacs --namespace genieacs --create-namespace 
 
 ## Documentation
 
-- [Installation](docs/installation.md): Docker Compose, `docker run`, Helm (bundled, external or Secret-sourced MongoDB), Helmfile, chart values
-- [Configuration](docs/configuration.md): ports, volumes, environment variables, security
-- [Troubleshooting](docs/troubleshooting.md)
-- [Development](docs/development.md): building the image and contributing
-- [GenieACS ecosystem](docs/ecosystem.md): the related Ansible, MCP, Home Assistant, n8n and ISP tools
+- [Installation](https://github.com/GeiserX/genieacs-container/blob/main/docs/installation.md): Docker Compose, `docker run`, Helm (bundled, external or Secret-sourced MongoDB), Helmfile, chart values
+- [Configuration](https://github.com/GeiserX/genieacs-container/blob/main/docs/configuration.md): ports, volumes, environment variables, security
+- [Troubleshooting](https://github.com/GeiserX/genieacs-container/blob/main/docs/troubleshooting.md)
+- [Development](https://github.com/GeiserX/genieacs-container/blob/main/docs/development.md): building the image and contributing
+- [GenieACS ecosystem](https://github.com/GeiserX/genieacs-container/blob/main/docs/ecosystem.md): the related Ansible, MCP, Home Assistant, n8n and ISP tools
 
 ## Related projects
 
@@ -52,4 +52,4 @@ helm install genieacs genieacs/genieacs --namespace genieacs --create-namespace 
 
 ## License
 
-This project is licensed under the same license as GenieACS. See [LICENSE](LICENSE) file for details.
+This repository (the Dockerfile, Helm chart and scripts) is licensed under GPL-3.0-or-later; see [LICENSE](https://github.com/GeiserX/genieacs-container/blob/main/LICENSE). GenieACS itself, which the image packages, is licensed under [AGPL-3.0](https://github.com/genieacs/genieacs/blob/master/LICENSE).
