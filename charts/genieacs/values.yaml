@@ -1,7 +1,7 @@
 image:
   repository: drumsergio/genieacs
   pullPolicy: IfNotPresent
-  tag: "1.2.16.0"
+  tag: "1.2.16.6"
 
 replicaCount: 1
 
@@ -72,6 +72,11 @@ resources:
 
 mongodb:
   enabled: true
+  # bitnami/mongodb publishes only the `latest` tag, so the image is pinned by
+  # digest (MongoDB 8.3.11, built 2026-09-29) to keep installs reproducible.
+  # Replace the digest to move to a newer build.
+  image:
+    digest: "sha256:27749b557cac8a65cf5c271ce5061a04900f69a7bff273c33d8bd32890e5c1df"
   auth:
     enabled: false
     # When auth.enabled is true, the chart auto-constructs an authenticated URI.

@@ -11,7 +11,7 @@ metadata:
 spec:
   containers:
     - name: wget
-      image: busybox:latest
+      image: busybox:1.37.0
       command: ['wget']
       args: ['--spider', '--quiet', 'http://{{ include "genieacs.fullname" . }}-http:{{ .Values.service_http.port_http }}']
   restartPolicy: Never

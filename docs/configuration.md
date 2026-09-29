@@ -27,12 +27,12 @@
 | `GENIEACS_UI_ACCESS_LOG_FILE` | UI access log path | `/var/log/genieacs/genieacs-ui-access.log` |
 | `GENIEACS_DEBUG_FILE` | Debug log path | `/var/log/genieacs/genieacs-debug.yaml` |
 
-The Helm chart options are in [Installation](installation.md#chart-configuration).
+The Helm chart options are in [Getting started](getting-started.md#chart-configuration).
 
 ## Security considerations
 
-- The container runs as a non-root user (`genieacs`)
-- Security contexts are configured in the Helm chart
+- The container starts as root so it can run cron, then `gosu` drops the GenieACS processes to the unprivileged `genieacs` user, uid 999
+- In the Helm chart the pod runs as root (`runAsUser: 0`) for the same reason, with every capability dropped except `SETUID` and `SETGID`
 - Default JWT secret should be changed in production
 - Use `envFrom` or `extraEnvVars` to inject secrets from Kubernetes Secrets instead of hardcoding in `values.yaml`
 - MongoDB authentication should be enabled for production deployments

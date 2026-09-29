@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/GeiserX/genieacs-container/main/docs/images/banner.svg" alt="GenieACS Container banner" width="900"/>
+  <img src="https://raw.githubusercontent.com/GeiserX/genieacs-container/main/docs/images/banner.svg" alt="GenieACS Container" width="900"/>
 </p>
 
 <h1 align="center">GenieACS Container</h1>
@@ -18,16 +18,17 @@
 
 ## Features
 
-- Docker images for GenieACS v1.2.16.0, for amd64 and arm64.
+- Docker images for GenieACS 1.2.16 (image tag `1.2.16.6`), for amd64 and arm64.
 - A Helm chart for Kubernetes, released automatically by GitHub Actions.
-- Runs as a non-root user, with security contexts set in the chart.
-- Health checks and monitoring support.
+- The container and the chart's pod run as root so cron can start; `gosu` drops the GenieACS processes to the unprivileged `genieacs` user, uid 999.
+- Health checks: a Compose healthcheck and liveness and readiness probes in the chart.
 - A Compose stack with MongoDB, plus optional simulator (`--profile testing`) and MCP server (`--profile mcp`) services.
 - The chart supports Ingress or Gateway API `httpRoute`, and an external MongoDB whose connection string comes from a Kubernetes Secret.
 
 ## Quick start
 
 ```bash
+curl -fsSLO https://raw.githubusercontent.com/GeiserX/genieacs-container/main/docker-compose.yml
 docker compose up -d
 ```
 
@@ -38,17 +39,20 @@ helm repo add genieacs https://geiserx.github.io/genieacs-container
 helm install genieacs genieacs/genieacs --namespace genieacs --create-namespace --set env.GENIEACS_UI_JWT_SECRET=your-secret-here
 ```
 
+The longer paths (`docker run`, external MongoDB, Helmfile) are in [Getting started](https://github.com/GeiserX/genieacs-container/blob/main/docs/getting-started.md).
+
 ## Documentation
 
-- [Installation](https://github.com/GeiserX/genieacs-container/blob/main/docs/installation.md): Docker Compose, `docker run`, Helm (bundled, external or Secret-sourced MongoDB), Helmfile, chart values
+- [Getting started](https://github.com/GeiserX/genieacs-container/blob/main/docs/getting-started.md): Docker Compose, `docker run`, Helm (bundled, external or Secret-sourced MongoDB), Helmfile, chart values
 - [Configuration](https://github.com/GeiserX/genieacs-container/blob/main/docs/configuration.md): ports, volumes, environment variables, security
-- [Troubleshooting](https://github.com/GeiserX/genieacs-container/blob/main/docs/troubleshooting.md)
+- [Usage](https://github.com/GeiserX/genieacs-container/blob/main/docs/usage.md): the four services, the simulator and MCP profiles, extension scripts, logs
+- [Troubleshooting](https://github.com/GeiserX/genieacs-container/blob/main/docs/troubleshooting.md): logs, MongoDB connection, reporting a bug
 - [Development](https://github.com/GeiserX/genieacs-container/blob/main/docs/development.md): building the image and contributing
-- [GenieACS ecosystem](https://github.com/GeiserX/genieacs-container/blob/main/docs/ecosystem.md): the related Ansible, MCP, Home Assistant, n8n and ISP tools
+- [Related projects](https://github.com/GeiserX/genieacs-container/blob/main/docs/related.md): the Ansible, MCP, Home Assistant, simulator and ISP tools
 
 ## Related projects
 
-[genieacs-ansible](https://github.com/GeiserX/genieacs-ansible), [genieacs-mcp](https://github.com/GeiserX/genieacs-mcp), [genieacs-ha](https://github.com/GeiserX/genieacs-ha), [n8n-nodes-genieacs](https://github.com/GeiserX/n8n-nodes-genieacs), [genieacs-services](https://github.com/GeiserX/genieacs-services), [genieacs-sim-container](https://github.com/GeiserX/genieacs-sim-container).
+[genieacs-ansible](https://github.com/GeiserX/genieacs-ansible), [genieacs-mcp](https://github.com/GeiserX/genieacs-mcp), [genieacs-ha](https://github.com/GeiserX/genieacs-ha), [genieacs-services](https://github.com/GeiserX/genieacs-services), [genieacs-sim-container](https://github.com/GeiserX/genieacs-sim-container), and [n8n-nodes-genieacs](https://github.com/GeiserX/n8n-nodes-genieacs) (archived).
 
 ## License
 

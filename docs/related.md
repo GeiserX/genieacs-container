@@ -1,4 +1,4 @@
-# GenieACS ecosystem
+# Related projects
 
 This image is part of a broader set of tools for working with GenieACS:
 
@@ -7,9 +7,9 @@ This image is part of a broader set of tools for working with GenieACS:
 | [genieacs-ansible](https://github.com/GeiserX/genieacs-ansible) | Ansible Collection | Dynamic inventory plugin and device management modules |
 | [genieacs-mcp](https://github.com/GeiserX/genieacs-mcp) | MCP Server | AI-assisted device management via MCP |
 | [genieacs-ha](https://github.com/GeiserX/genieacs-ha) | HA Integration | Home Assistant integration for TR-069 monitoring |
-| [n8n-nodes-genieacs](https://github.com/GeiserX/n8n-nodes-genieacs) | n8n Node | Workflow automation for GenieACS |
+| [n8n-nodes-genieacs](https://github.com/GeiserX/n8n-nodes-genieacs) (archived) | n8n Node | Workflow automation for GenieACS; no longer maintained |
 | [genieacs-services](https://github.com/GeiserX/genieacs-services) | Service Defs | Systemd/Supervisord service definitions |
-| [genieacs-sim-container](https://github.com/GeiserX/genieacs-sim-container) | Simulator | Docker-based GenieACS simulator for testing |
+| [genieacs-sim-container](https://github.com/GeiserX/genieacs-sim-container) | Simulator | Docker image of the GenieACS simulator, for testing without hardware |
 
 > The simulator is also available as an optional Docker Compose profile in this repo (`--profile testing`).
 
