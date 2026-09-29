@@ -1,0 +1,207 @@
+# Installation
+
+## Quick start
+
+### Docker Compose
+
+The fastest way to get started:
+
+```bash
+docker compose up -d
+```
+
+This will start:
+- GenieACS (ports 7547, 7557, 7567, 3000)
+- MongoDB (internal port 27017)
+
+Access the GenieACS UI at: http://localhost:3000
+
+### Docker Run
+
+```bash
+docker run -d \
+  --name genieacs \
+  -p 7547:7547 \
+  -p 7557:7557 \
+  -p 7567:7567 \
+  -p 3000:3000 \
+  -e GENIEACS_MONGODB_CONNECTION_URL=mongodb://your-mongo-host/genieacs \
+  -e GENIEACS_UI_JWT_SECRET=your-secret-here \
+  drumsergio/genieacs:1.2.16.0
+```
+
+## Docker Compose
+
+The included `docker-compose.yml` provides a complete stack with GenieACS and MongoDB:
+
+```bash
+# Start all services
+docker compose up -d
+
+# View logs
+docker compose logs -f genieacs
+
+# Stop all services
+docker compose down
+
+# Stop and remove volumes
+docker compose down -v
+```
+
+**Optional Services:**
+- `genieacs-sim`: Testing simulator (use `--profile testing`)
+- `genieacs-mcp`: MCP Server (use `--profile mcp`)
+
+## Kubernetes with Helm
+
+### Using the Official Chart Repository
+
+Add the chart repository:
+
+```bash
+helm repo add genieacs https://geiserx.github.io/genieacs-container
+helm repo update
+```
+
+Install GenieACS:
+
+```bash
+helm install genieacs genieacs/genieacs \
+  --namespace genieacs \
+  --create-namespace \
+  --set env.GENIEACS_UI_JWT_SECRET=your-secret-here
+```
+
+This deploys GenieACS with a MongoDB instance included by default (no auth). For production with MongoDB auth:
+
+```bash
+helm install genieacs genieacs/genieacs \
+  --namespace genieacs \
+  --create-namespace \
+  --set mongodb.auth.enabled=true \
+  --set mongodb.auth.rootPassword=your-secure-password \
+  --set env.GENIEACS_UI_JWT_SECRET=your-secret-here
+```
+
+To use an external MongoDB (connection string inline):
+
+```bash
+helm install genieacs genieacs/genieacs \
+  --namespace genieacs \
+  --create-namespace \
+  --set mongodb.enabled=false \
+  --set externalMongodb.url=mongodb://your-mongo-host/genieacs
+```
+
+To use an external MongoDB with the connection string sourced from a
+Kubernetes Secret (recommended for production — keeps credentials out
+of values files and out of the pod spec):
+
+```bash
+kubectl create secret generic genieacs-mongodb \
+  --namespace genieacs \
+  --from-literal=connectionString="mongodb+srv://user:pass@cluster.example.net/genieacs?retryWrites=true"
+
+helm install genieacs genieacs/genieacs \
+  --namespace genieacs \
+  --create-namespace \
+  --set mongodb.enabled=false \
+  --set externalMongodb.existingSecret=genieacs-mongodb
+```
+
+This pattern integrates with External Secrets Operator, Sealed Secrets,
+Vault, and operators that write connection details to a Kubernetes
+Secret (MongoDB Atlas Operator, MongoDB Controllers for Kubernetes
+(MCK), the Percona Operator).
+
+> **Production note:** The bundled Bitnami MongoDB subchart is intended
+> for development and evaluation only. For production deployments, run
+> MongoDB separately — managed (MongoDB Atlas), operator-managed
+> ([MCK](https://github.com/mongodb/mongodb-kubernetes),
+> [Percona Operator for MongoDB](https://github.com/percona/percona-server-mongodb-operator)),
+> or self-hosted — and point the chart at it using
+> `externalMongodb.existingSecret`.
+
+### Using Helmfile
+
+See the [examples directory](../examples/) for a complete Helmfile deployment example:
+
+```bash
+helmfile -f examples/helmfile.yaml apply
+```
+
+### Chart Configuration
+
+Key configuration options in `values.yaml`:
+
+```yaml
+image:
+  repository: drumsergio/genieacs
+  tag: "1.2.16.0"
+
+replicaCount: 1
+
+ingress:
+  enabled: false
+  className: ""  # e.g. "nginx", "traefik"
+
+# Kubernetes Gateway API alternative to `ingress` (requires the
+# Gateway API CRDs and a Gateway controller in the cluster).
+# Only `parentRefs` is required when enabled.
+httpRoute:
+  enabled: false
+  parentRefs: []
+  # - name: my-gateway
+  #   namespace: gateway-system
+  #   sectionName: https
+  hostnames:
+    - genieacs.local
+  # Optional. Omit to match every request. Besides `path`, each entry
+  # accepts `method`, `headers` and `queryParams`.
+  matches:
+    - path:
+        type: PathPrefix
+        value: /
+
+env:
+  GENIEACS_UI_JWT_SECRET: changeme
+
+# Inject env vars from Kubernetes Secrets/ConfigMaps
+envFrom: []
+# - secretRef:
+#     name: genieacs-secrets
+
+# Env vars with valueFrom (e.g. secretKeyRef)
+extraEnvVars: []
+
+# Bitnami MongoDB subchart (deployed alongside GenieACS by default)
+mongodb:
+  enabled: true
+  auth:
+    enabled: false
+  persistence:
+    enabled: true
+    size: 8Gi
+
+# Used when mongodb.enabled is false (bring your own MongoDB).
+# Set either `url` directly, or `existingSecret` + `secretKey` to
+# source the connection string from a Kubernetes Secret (recommended
+# for production). If both are set, `existingSecret` takes precedence.
+externalMongodb:
+  url: ""
+  existingSecret: ""
+  secretKey: "connectionString"
+
+persistence:
+  enabled: true
+  size: 5Gi
+
+resources:
+  limits:
+    memory: 4Gi
+  requests:
+    cpu: 500m
+    memory: 2Gi
+```
+
+For complete configuration options, see [charts/genieacs/values.yaml](../charts/genieacs/values.yaml).
