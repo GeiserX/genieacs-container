@@ -29,6 +29,13 @@ on:
   pull_request:
   workflow_dispatch:
 
+# One run at a time per ref, in push order, never cancelled, so an older push
+# whose build finishes later cannot deploy last. The deploy job also holds the
+# `gh-pages` group shared with the chart release.
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
+
 permissions:
   contents: read
 
