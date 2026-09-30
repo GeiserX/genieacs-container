@@ -1,0 +1,37 @@
+/* docs/stylesheets/theme.css: the site takes its colours from the banner.
+ *
+ * banner.svg sets the name in #16241b (a green-tinted near-black) on #f7f8f6,
+ * with a #67B028 GenieACS green rule and #0F8630 / #9be07a greens in the mark.
+ * The header and the dark page use the near-black; the green is the accent.
+ */
+:root {
+  --md-primary-fg-color:        #16241b;  /* banner text */
+  --md-primary-fg-color--light: #4a5a4f;
+  --md-primary-fg-color--dark:  #0c1510;
+  --md-primary-bg-color:        #f7f8f6;  /* banner background, text on the header */
+  --md-primary-bg-color--light: #dfe3dc;
+
+  --md-accent-fg-color:         #67B028;  /* banner accent */
+  --md-accent-fg-color--transparent: #67B0281a;
+}
+
+/* Dark scheme: the page body uses the banner's near-black, so the header and
+   the page read as one surface. #9be07a on #16241b is 10:1. */
+[data-md-color-scheme="slate"] {
+  --md-default-bg-color:        #16241b;
+  --md-code-bg-color:           #1f3026;
+  --md-typeset-a-color:         #9be07a;
+}
+
+/* Light scheme: #67B028 on white is 2.6:1, too faint for body links. #0F8630,
+   the banner's darker green, is 4.7:1. */
+[data-md-color-scheme="default"] {
+  --md-typeset-a-color:         #0F8630;
+}
+
+/* Fixed logo size so it does not crowd the site name. */
+.md-header__button.md-logo img,
+.md-header__button.md-logo svg {
+  height: 1.6rem;
+  width: 1.6rem;
+}
