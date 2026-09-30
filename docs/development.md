@@ -24,16 +24,7 @@ manual run (`workflow_dispatch`) can set `version_override`, which replaces that
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-GenieACS-Container follows the [Contributor Covenant](http://contributor-covenant.org/version/2/1/) Code of Conduct.
-
-## Maintainers
-
-[@GeiserX](https://github.com/GeiserX)
+Pull requests are welcome. Fork, branch, change, open a PR against `main`; CI builds and smoke-tests the
+image on every PR; a chart change is released when it lands on `main`. Bugs go to the
+[issue tracker](https://github.com/GeiserX/genieacs-container/issues); security problems follow the
+[security policy](https://github.com/GeiserX/genieacs-container/blob/main/SECURITY.md).

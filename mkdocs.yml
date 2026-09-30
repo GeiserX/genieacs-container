@@ -1,6 +1,6 @@
-site_name: GenieACS Container
+site_name: genieacs-container
 site_url: https://geiserx.github.io/genieacs-container/
-site_description: "Docker image and Helm chart for GenieACS, an open-source TR-069 ACS, with MongoDB on Docker Compose or Kubernetes."
+site_description: "Docker image and Helm chart for GenieACS, the open-source TR-069 ACS. GenieACS and MongoDB on Docker Compose or Kubernetes."
 repo_url: https://github.com/GeiserX/genieacs-container
 repo_name: GeiserX/genieacs-container
 edit_uri: edit/main/docs/
@@ -12,10 +12,11 @@ strict: true
 theme:
   name: material
   language: en  # es for a Spanish repo: it changes the UI strings, not the content.
-  # Uncomment when the repo has them. Both live under docs/images/.
-  # logo: images/logo.svg
-  # favicon: images/icon.svg
-  # Dark first: the first palette entry is the default, and the banners are dark.
+  logo: images/logo.svg
+  favicon: images/icon.svg
+  # Dark first: the first palette entry is the default. The banner is light,
+  # but the header takes the banner's text colour, so the site reads as one
+  # palette either way.
   palette:
     - scheme: slate
       primary: custom
@@ -114,6 +115,8 @@ extra:
       link: https://github.com/GeiserX/genieacs-container
     - icon: fontawesome/brands/docker
       link: https://hub.docker.com/r/drumsergio/genieacs
+    - icon: simple/artifacthub
+      link: https://artifacthub.io/packages/helm/genieacs/genieacs
 
 extra_css:
   - stylesheets/theme.css
@@ -133,9 +136,13 @@ exclude_docs: |
 
 nav:
   - Home: index.md
-  - Getting started: getting-started.md
-  - Configuration: configuration.md
-  - Usage: usage.md
-  - Troubleshooting: troubleshooting.md
+  - Get started:
+      - Getting started: getting-started.md
+      - Your first device: first-device.md
+      - Usage: usage.md
+  - Reference:
+      - Configuration: configuration.md
+      - How it works: how-it-works.md
+      - Troubleshooting: troubleshooting.md
+      - Related projects: related.md
   - Development: development.md
-  - Related projects: related.md

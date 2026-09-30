@@ -21,9 +21,21 @@ docker compose --profile testing up -d   # genieacs-sim: one simulated CPE that 
 docker compose --profile mcp up -d       # genieacs-mcp: the MCP server on port 8080, talking to the NBI
 ```
 
-The simulated device shows up under Devices in the UI after its first inform. The MCP service uses the
+The simulated device shows up under Devices in the UI after its first inform; [Your first device](first-device.md)
+has more devices and a real CPE. The MCP service uses the
 `admin` / `admin` login the wizard creates by default; change `ACS_USER` and `ACS_PASS` in the file if you
 chose others.
+
+## Presets and files
+
+Presets (Admin > Presets) apply a provision to every device matching a precondition, for example a tag.
+Files (Admin > Files) are what a "Push file" task or a provision's download points a device at, uploaded
+through the console or with `PUT /files/<name>` on the NBI with the `fileType`, `oui`, `productClass` and
+`version` headers.
+
+![The Presets page under Admin: the bootstrap, default and inform presets plus one that targets a tag](images/screenshots/presets.png)
+
+![The Files page under Admin with one firmware image uploaded, showing its type, OUI, product class and version](images/screenshots/files.png)
 
 ## Extension scripts
 
