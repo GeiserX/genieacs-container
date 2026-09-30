@@ -1,0 +1,121 @@
+name: Docs
+
+# The docs workflow for a repo whose gh-pages branch is ALSO its Helm chart
+# repository: index.yaml and artifacthub-repo.yml live there (the .tgz packages
+# are release assets that index.yaml points at), and `helm repo add
+# https://geiserx.github.io/<repo>` reads them from the Pages URL. Pumperly,
+# LynxPrompt, genieacs-container and duplicacy-container are in this case.
+#
+# The site therefore stays on the branch flow: build strictly, rsync the site
+# into a checkout of gh-pages with the Helm files excluded, commit, push. Never
+# `mkdocs gh-deploy` (it replaces the whole branch and deletes the chart index)
+# and never the artifact flow of docs-pages.yml (Pages then stops serving the
+# branch, so a chart release would publish an index nobody can fetch until the
+# next docs deploy). The `gh-pages` concurrency group is shared with the chart
+# release workflow (helm/chart-releaser-action) so the two never push at once:
+# add the same `concurrency` block to release-chart.yml.
+#
+# Copied from Pumperly's docs.yml, which has run this way since 2026-09.
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
+      - '.github/workflows/docs.yml'
+      # Add every file a page includes with pymdownx.snippets.
+  # No paths filter on pull requests: a filtered-out required check blocks the merge.
+  pull_request:
+  workflow_dispatch:
+
+# One run at a time per ref, in push order, never cancelled, so an older push
+# whose build finishes later cannot deploy last. The deploy job also holds the
+# `gh-pages` group shared with the chart release.
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: build (strict)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # This job never pushes; a persisted token is readable by pip and every MkDocs plugin.
+          persist-credentials: false
+
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: docs/requirements-docs.txt
+
+      - name: Install dependencies
+        run: pip install -r docs/requirements-docs.txt
+
+      - name: Build
+        run: mkdocs build --strict
+
+  deploy:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    concurrency:
+      group: gh-pages
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # This checkout only builds; the gh-pages checkout below keeps its token for the push.
+          persist-credentials: false
+
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.13'
+
+      - name: Install dependencies
+        run: pip install -r docs/requirements-docs.txt
+
+      - name: Build
+        run: mkdocs build --strict --site-dir "$RUNNER_TEMP/site"
+
+      - name: Check out gh-pages
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      # rsync --delete removes stale site files but leaves the excluded Helm
+      # files alone. The two `test -f` lines are the gate: if either file is
+      # missing after the sync, nothing is pushed.
+      - name: Sync the site into gh-pages, keeping the Helm repository
+        run: |
+          rsync -a --delete \
+            --exclude '.git' \
+            --exclude 'index.yaml' \
+            --exclude 'artifacthub-repo.yml' \
+            --exclude '*.tgz' \
+            "$RUNNER_TEMP/site/" gh-pages/
+          touch gh-pages/.nojekyll
+          test -f gh-pages/index.yaml
+          test -f gh-pages/artifacthub-repo.yml
+
+      - name: Commit and push
+        working-directory: gh-pages
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No site changes."
+            exit 0
+          fi
+          git commit -m "docs: deploy ${GITHUB_SHA::7}"
+          git push origin gh-pages

@@ -1,0 +1,141 @@
+site_name: GenieACS Container
+site_url: https://geiserx.github.io/genieacs-container/
+site_description: "Docker image and Helm chart for GenieACS, an open-source TR-069 ACS, with MongoDB on Docker Compose or Kubernetes."
+repo_url: https://github.com/GeiserX/genieacs-container
+repo_name: GeiserX/genieacs-container
+edit_uri: edit/main/docs/
+
+# A warning is a broken link, a missing page or a page nobody can reach. All of
+# them fail the build, locally and in CI, so nobody has to remember --strict.
+strict: true
+
+theme:
+  name: material
+  language: en  # es for a Spanish repo: it changes the UI strings, not the content.
+  # Uncomment when the repo has them. Both live under docs/images/.
+  # logo: images/logo.svg
+  # favicon: images/icon.svg
+  # Dark first: the first palette entry is the default, and the banners are dark.
+  palette:
+    - scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+    - scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - content.code.copy
+    - content.action.edit
+    - search.highlight
+    - search.suggest
+    - toc.follow
+  icon:
+    repo: fontawesome/brands/github
+
+# MkDocs reports most link problems as `info`, which --strict ignores. Every
+# line here promotes one of them to a warning so the build fails on it:
+#   nav.omitted_files   a Markdown file under docs/ that is in no nav entry and
+#                       not in exclude_docs (a page nobody can reach, published
+#                       at a public URL anyway);
+#   nav.not_found       a nav entry whose file does not exist;
+#   links.not_found     a relative link to a page or file that does not exist;
+#   links.anchors       a link to a heading that does not exist;
+#   links.absolute_links  a link written as /path/ (breaks under the /genieacs-container/
+#                       prefix of the site);
+#   links.unrecognized_links  a relative link that leaves docs/ (../README.md).
+#                       Repo files are linked by absolute GitHub URL instead.
+validation:
+  nav:
+    omitted_files: warn
+    not_found: warn
+    absolute_links: warn
+  links:
+    not_found: warn
+    anchors: warn
+    absolute_links: warn
+    unrecognized_links: warn
+
+plugins:
+  - search
+  # When a page is renamed (installation.md -> getting-started.md), keep the old URL alive:
+  # add `mkdocs-redirects==1.2.2` to docs/requirements-docs.txt and uncomment.
+  # - redirects:
+  #     redirect_maps:
+  #       installation.md: getting-started.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  # base_path includes the repository root, so a page can include a file that
+  # ships (docker-compose.yml, .env.example) word for word with
+  # `--8<-- "docker-compose.yml"`. A copied example drifts from the real file;
+  # an included one cannot. check_paths makes a missing include fail the build
+  # instead of rendering an empty block.
+  - pymdownx.snippets:
+      base_path:
+        - .
+        - docs
+      check_paths: true
+  - pymdownx.mark
+  - attr_list
+  - md_in_html
+  # Renders :material-xxx: shortcodes as icons. The grid cards on index.md use
+  # them; without this they print as literal text.
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - tables
+  - toc:
+      permalink: true
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/GeiserX/genieacs-container
+    - icon: fontawesome/brands/docker
+      link: https://hub.docker.com/r/drumsergio/genieacs
+
+extra_css:
+  - stylesheets/theme.css
+
+# Files under docs/ that are not pages. MkDocs publishes every Markdown file in
+# docs/ whether or not it is in the nav, so anything that is not a page must be
+# listed here. The patterns follow the docs/ contract: a page is a lowercase
+# kebab-case .md file; anything with a capital letter (ROADMAP.md, CHANGELOG.md,
+# GOAL.md, DESIGN.md) is a repo-facing note, and design/, research/ and notes/
+# hold material read on GitHub. Add a line for any other per-repo note.
+exclude_docs: |
+  [A-Z]*.md
+  design/
+  research/
+  notes/
+  requirements-docs.txt
+
+nav:
+  - Home: index.md
+  - Getting started: getting-started.md
+  - Configuration: configuration.md
+  - Usage: usage.md
+  - Troubleshooting: troubleshooting.md
+  - Development: development.md
+  - Related projects: related.md

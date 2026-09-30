@@ -43,12 +43,14 @@ The longer paths (`docker run`, external MongoDB, Helmfile) are in [Getting star
 
 ## Documentation
 
-- [Getting started](https://github.com/GeiserX/genieacs-container/blob/main/docs/getting-started.md): Docker Compose, `docker run`, Helm (bundled, external or Secret-sourced MongoDB), Helmfile, chart values
-- [Configuration](https://github.com/GeiserX/genieacs-container/blob/main/docs/configuration.md): ports, volumes, environment variables, security
-- [Usage](https://github.com/GeiserX/genieacs-container/blob/main/docs/usage.md): the four services, the simulator and MCP profiles, extension scripts, logs
-- [Troubleshooting](https://github.com/GeiserX/genieacs-container/blob/main/docs/troubleshooting.md): logs, MongoDB connection, reporting a bug
-- [Development](https://github.com/GeiserX/genieacs-container/blob/main/docs/development.md): building the image and contributing
-- [Related projects](https://github.com/GeiserX/genieacs-container/blob/main/docs/related.md): the Ansible, MCP, Home Assistant, simulator and ISP tools
+The documentation lives at **[geiserx.github.io/genieacs-container](https://geiserx.github.io/genieacs-container/)**.
+
+- [Getting started](https://geiserx.github.io/genieacs-container/getting-started/): Docker Compose, `docker run`, Helm (bundled, external or Secret-sourced MongoDB), Helmfile, chart values
+- [Configuration](https://geiserx.github.io/genieacs-container/configuration/): ports, volumes, environment variables, security
+- [Usage](https://geiserx.github.io/genieacs-container/usage/): the four services, the simulator and MCP profiles, extension scripts, logs
+- [Troubleshooting](https://geiserx.github.io/genieacs-container/troubleshooting/): logs, MongoDB connection, reporting a bug
+- [Development](https://geiserx.github.io/genieacs-container/development/): building the image and contributing
+- [Related projects](https://geiserx.github.io/genieacs-container/related/): the Ansible, MCP, Home Assistant, simulator and ISP tools
 
 ## Related projects
 
