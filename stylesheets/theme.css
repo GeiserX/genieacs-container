@@ -1,30 +1,32 @@
 /* docs/stylesheets/theme.css: the site takes its colours from the banner.
  *
- * banner.svg sets the name in #16241b (a green-tinted near-black) on #f7f8f6,
- * with a #67B028 GenieACS green rule and #0F8630 / #9be07a greens in the mark.
- * The header and the dark page use the near-black; the green is the accent.
+ * banner.svg sets the wordmark `genieacs-container` in monospace bold #16241b
+ * on a #f7f8f6 plate with a #dfe3dc border, a #67B028 vertical rule, and a
+ * #16241b command pill whose prompt is #9be07a. The mark is #0F8630 arcs
+ * over a #67B028 whale. The header and the dark page use the near-black;
+ * the green is the accent.
  */
 :root {
-  --md-primary-fg-color:        #16241b;  /* banner text */
-  --md-primary-fg-color--light: #4a5a4f;
+  --md-primary-fg-color:        #16241b;  /* banner text, header */
+  --md-primary-fg-color--light: #4a5a4f;  /* banner tagline */
   --md-primary-fg-color--dark:  #0c1510;
-  --md-primary-bg-color:        #f7f8f6;  /* banner background, text on the header */
-  --md-primary-bg-color--light: #dfe3dc;
+  --md-primary-bg-color:        #f7f8f6;  /* banner plate, text on the header */
+  --md-primary-bg-color--light: #dfe3dc;  /* banner border */
 
-  --md-accent-fg-color:         #67B028;  /* banner accent */
+  --md-accent-fg-color:         #67B028;  /* banner rule */
   --md-accent-fg-color--transparent: #67B0281a;
 }
 
 /* Dark scheme: the page body uses the banner's near-black, so the header and
-   the page read as one surface. #9be07a on #16241b is 10:1. */
+   the page read as one surface. #9be07a on #16241b is 10.2:1. */
 [data-md-color-scheme="slate"] {
   --md-default-bg-color:        #16241b;
   --md-code-bg-color:           #1f3026;
   --md-typeset-a-color:         #9be07a;
 }
 
-/* Light scheme: #67B028 on white is 2.6:1, too faint for body links. #0F8630,
-   the banner's darker green, is 4.7:1. */
+/* Light scheme: #67B028 on white is 2.7:1, too faint for body links. #0F8630,
+   the mark's darker green, is 4.7:1. */
 [data-md-color-scheme="default"] {
   --md-typeset-a-color:         #0F8630;
 }
@@ -34,4 +36,109 @@
 .md-header__button.md-logo svg {
   height: 1.6rem;
   width: 1.6rem;
+}
+
+/* The site name, set the way banner.svg sets the wordmark: monospace, bold,
+   tight. Only the first topic is styled. Material puts the site name in one
+   .md-header__topic and the page title in a second one, and swaps them on
+   scroll; styling both would change every page title too. */
+.md-header__topic:first-child .md-ellipsis {
+  font-family: SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #f7f8f6;
+}
+
+/* Keep the mark and the name close, so they read as one unit. */
+.md-header__button.md-logo {
+  padding-right: 0.2rem;
+}
+
+.md-header__title {
+  margin-left: 0.2rem;
+}
+
+/* Buttons. Material paints .md-button in --md-primary-fg-color, the header
+   colour. On the dark page that is also the page background, so a button
+   would show as plain text. Outline buttons take the link colour instead. */
+.md-typeset .md-button {
+  color: var(--md-typeset-a-color);
+  border-color: var(--md-typeset-a-color);
+  border-radius: 0.5rem;
+}
+
+.md-typeset .md-button:focus,
+.md-typeset .md-button:hover {
+  background-color: var(--md-typeset-a-color);
+  border-color: var(--md-typeset-a-color);
+  color: #16241b;
+}
+
+/* Grid cards: the border picks up the accent on hover, so the cards match
+   the links. */
+.md-typeset .grid.cards > ul > li,
+.md-typeset .grid > .card {
+  border-radius: 0.5rem;
+}
+
+.md-typeset .grid.cards > ul > li:focus-within,
+.md-typeset .grid.cards > ul > li:hover,
+.md-typeset .grid > .card:focus-within,
+.md-typeset .grid > .card:hover {
+  border-color: #67B028;
+}
+
+/* The home page keeps an H1 for search, screen readers and the browser tab.
+   The banner under it already shows the name, so the H1 is hidden visually.
+   Use it as: # genieacs-container { .gc-visually-hidden } */
+.md-typeset h1.gc-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Environment variable names in tables, such as GENIEACS_MONGODB_CONNECTION_URL,
+   must not wrap mid-word. */
+.md-typeset table:not([class]) code {
+  word-break: normal;
+}
+
+/* The desktop screenshots on the home page: four thumbnails, two per row on
+   a wide screen, one per row on a narrow one, each with a short caption and a
+   link to the full-size file. */
+.md-typeset .gc-shot-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.8rem;
+  margin: 1em 0;
+}
+
+.md-typeset .gc-shot-gallery figure {
+  margin: 0;
+}
+
+.md-typeset .gc-shot-gallery img {
+  border: 1px solid var(--md-primary-bg-color--light);
+  border-radius: 0.4rem;
+}
+
+[data-md-color-scheme="slate"] .md-typeset .gc-shot-gallery img {
+  border-color: #2a3a30;
+}
+
+.md-typeset .gc-shot-gallery figcaption {
+  margin-top: 0.3rem;
+  font-size: 0.7rem;
+}
+
+@media screen and (max-width: 44.9375em) {
+  .md-typeset .gc-shot-gallery {
+    grid-template-columns: 1fr;
+  }
 }

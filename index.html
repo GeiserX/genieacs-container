@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Docker image and Helm chart for GenieACS, an open-source TR-069 ACS, with MongoDB on Docker Compose or Kubernetes.">
+        <meta name="description" content="Docker image and Helm chart for GenieACS, the open-source TR-069 ACS. GenieACS and MongoDB on Docker Compose or Kubernetes.">
       
       
       
@@ -20,12 +20,12 @@
         
       
       
-      <link rel="icon" href="assets/images/favicon.png">
+      <link rel="icon" href="images/icon.svg">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
-        <title>GenieACS Container</title>
+        <title>genieacs-container</title>
       
     
     
@@ -92,10 +92,9 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="GenieACS Container" class="md-header__button md-logo" aria-label="GenieACS Container" data-md-component="logo">
+    <a href="." title="genieacs-container" class="md-header__button md-logo" aria-label="genieacs-container" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <img src="images/logo.svg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -106,7 +105,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            GenieACS Container
+            genieacs-container
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -245,17 +244,18 @@
   
   
   
-    <li class="md-tabs__item">
-      <a href="getting-started/" class="md-tabs__link">
-        
-  
-  
     
+    
+      <li class="md-tabs__item">
+        <a href="getting-started/" class="md-tabs__link">
+          
   
-  Getting started
+  
+  Get started
 
-      </a>
-    </li>
+        </a>
+      </li>
+    
   
 
       
@@ -264,55 +264,18 @@
   
   
   
-    <li class="md-tabs__item">
-      <a href="configuration/" class="md-tabs__link">
-        
-  
-  
     
-  
-  Configuration
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="usage/" class="md-tabs__link">
-        
-  
-  
     
+      <li class="md-tabs__item">
+        <a href="configuration/" class="md-tabs__link">
+          
   
-  Usage
+  
+  Reference
 
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="troubleshooting/" class="md-tabs__link">
-        
-  
-  
+        </a>
+      </li>
     
-  
-  Troubleshooting
-
-      </a>
-    </li>
   
 
       
@@ -335,25 +298,6 @@
   
 
       
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="related/" class="md-tabs__link">
-        
-  
-  
-    
-  
-  Related projects
-
-      </a>
-    </li>
-  
-
-      
     </ul>
   </div>
 </nav>
@@ -365,7 +309,9 @@
           
             
               
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -376,13 +322,12 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="GenieACS Container" class="md-nav__button md-logo" aria-label="GenieACS Container" data-md-component="logo">
+    <a href="." title="genieacs-container" class="md-nav__button md-logo" aria-label="genieacs-container" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <img src="images/logo.svg" alt="logo">
 
     </a>
-    GenieACS Container
+    genieacs-container
   </label>
   
     <div class="md-nav__source">
@@ -415,6 +360,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="." class="md-nav__link md-nav__link--active">
         
   
@@ -432,12 +395,162 @@
 
       </a>
       
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-it-looks-like" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it looks like
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-in-the-image" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is in the image
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-runs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How it runs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-it-does-not-do" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it does not do
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Getting help
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#license" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        License
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
     
       
       
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Get started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
   
   
   
@@ -462,22 +575,23 @@
     </li>
   
 
-    
-      
-      
+              
+            
+              
+                
   
   
   
   
     <li class="md-nav__item">
-      <a href="configuration/" class="md-nav__link">
+      <a href="first-device/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Configuration
+    Your first device
   
 
     
@@ -489,9 +603,10 @@
     </li>
   
 
-    
-      
-      
+              
+            
+              
+                
   
   
   
@@ -516,9 +631,127 @@
     </li>
   
 
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
     
       
       
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="how-it-works/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How it works
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
   
   
   
@@ -540,6 +773,42 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="related/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Related projects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -571,33 +840,6 @@
   
 
     
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="related/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Related projects
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
   </ul>
 </nav>
                   </div>
@@ -605,6 +847,8 @@
               </div>
             
             
+              
+                
               
               <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
                 <div class="md-sidebar__scrollwrap">
@@ -618,6 +862,91 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-it-looks-like" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it looks like
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-in-the-image" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is in the image
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-runs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How it runs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-it-does-not-do" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it does not do
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Getting help
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#license" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        License
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -630,6 +959,8 @@
               <article class="md-content__inner md-typeset">
                 
                   
+  
+
 
 
   
@@ -641,18 +972,126 @@
   
 
 
-<h1 id="genieacs-container">GenieACS Container<a class="headerlink" href="#genieacs-container" title="Permanent link">&para;</a></h1>
-<p>Docker image and Helm chart for <a href="https://genieacs.com">GenieACS</a>, an open-source TR-069 ACS: GenieACS
-and MongoDB with Docker Compose on one host, or on Kubernetes with the chart.</p>
+<h1 class="gc-visually-hidden" id="genieacs-container">genieacs-container<a class="headerlink" href="#genieacs-container" title="Permanent link">&para;</a></h1>
+<p align="center">
+  <img src="images/banner.svg" alt="genieacs-container" width="100%">
+</p>
+
+<p align="center">
+  <a href="https://hub.docker.com/r/drumsergio/genieacs"><img alt="Docker Pulls" src="https://img.shields.io/docker/pulls/drumsergio/genieacs?style=flat-square&logo=docker"></a>
+  <a href="https://github.com/GeiserX/genieacs-container/stargazers"><img alt="GitHub Stars" src="https://img.shields.io/github/stars/GeiserX/genieacs-container?style=flat-square&logo=github"></a>
+  <a href="https://github.com/GeiserX/genieacs-container/releases"><img alt="Release" src="https://img.shields.io/github/v/release/GeiserX/genieacs-container?style=flat-square"></a>
+  <a href="https://github.com/GeiserX/genieacs-container/blob/main/LICENSE"><img alt="License: GPL-3.0" src="https://img.shields.io/github/license/GeiserX/genieacs-container?style=flat-square"></a>
+  <a href="https://artifacthub.io/packages/helm/genieacs/genieacs"><img alt="Artifact Hub" src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/genieacs&style=flat-square"></a>
+</p>
+
+<hr />
+<p><strong>genieacs-container</strong> is a Docker image and a Helm chart for <a href="https://genieacs.com">GenieACS</a>, the open-source TR-069 ACS that manages routers, ONTs and other CPE devices. GenieACS itself ships no container. This image runs its four services in one container, for amd64 and arm64, with MongoDB beside it: on one host with <a href="getting-started/#docker-compose">Docker Compose</a>, or on Kubernetes with the <a href="getting-started/#kubernetes-with-helm">Helm chart</a>. It packages GenieACS 1.2.16 and does not change it.</p>
+<p>This address is also the Helm chart repository: <code>helm repo add genieacs https://geiserx.github.io/genieacs-container</code>.</p>
+<div class="grid cards">
 <ul>
-<li><a href="getting-started/">Getting started</a>: Docker Compose, <code>docker run</code>, Helm with a bundled, external or
-  Secret-sourced MongoDB, Helmfile, the chart's main values</li>
-<li><a href="configuration/">Configuration</a>: ports, volumes, environment variables, security</li>
-<li><a href="usage/">Usage</a>: the four services, the optional simulator and MCP services, extension scripts, logs</li>
-<li><a href="troubleshooting/">Troubleshooting</a>: logs, MongoDB connection, reporting a bug</li>
-<li><a href="development/">Development</a>: building the image and contributing</li>
-<li><a href="related/">Related projects</a>: the Ansible, MCP, Home Assistant, simulator and ISP tools</li>
+<li>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.81 10.25c-.06-.04-.56-.43-1.64-.43-.28 0-.56.03-.84.08-.21-1.4-1.38-2.11-1.43-2.14l-.29-.17-.18.27c-.24.36-.43.77-.51 1.19-.2.8-.08 1.56.33 2.21-.49.28-1.29.35-1.46.35H2.62c-.34 0-.62.28-.62.63 0 1.15.18 2.3.58 3.38.45 1.19 1.13 2.07 2 2.61.98.6 2.59.94 4.42.94.79 0 1.61-.07 2.42-.22 1.12-.2 2.2-.59 3.19-1.16A8.3 8.3 0 0 0 16.78 16c1.05-1.17 1.67-2.5 2.12-3.65h.19c1.14 0 1.85-.46 2.24-.85.26-.24.45-.53.59-.87l.08-.24zm-17.96.99h1.76c.08 0 .16-.07.16-.16V9.5c0-.08-.07-.16-.16-.16H3.85c-.09 0-.16.07-.16.16v1.58c.01.09.07.16.16.16m2.43 0h1.76c.08 0 .16-.07.16-.16V9.5c0-.08-.07-.16-.16-.16H6.28c-.09 0-.16.07-.16.16v1.58c.01.09.07.16.16.16m2.47 0h1.75c.1 0 .17-.07.17-.16V9.5c0-.08-.06-.16-.17-.16H8.75c-.08 0-.15.07-.15.16v1.58c0 .09.06.16.15.16m2.44 0h1.77c.08 0 .15-.07.15-.16V9.5c0-.08-.06-.16-.15-.16h-1.77c-.08 0-.15.07-.15.16v1.58c0 .09.07.16.15.16M6.28 9h1.76c.08 0 .16-.09.16-.18V7.25c0-.09-.07-.16-.16-.16H6.28c-.09 0-.16.06-.16.16v1.57c.01.09.07.18.16.18m2.47 0h1.75c.1 0 .17-.09.17-.18V7.25c0-.09-.06-.16-.17-.16H8.75c-.08 0-.15.06-.15.16v1.57c0 .09.06.18.15.18m2.44 0h1.77c.08 0 .15-.09.15-.18V7.25c0-.09-.07-.16-.15-.16h-1.77c-.08 0-.15.06-.15.16v1.57c0 .09.07.18.15.18m0-2.28h1.77c.08 0 .15-.07.15-.16V5c0-.1-.07-.17-.15-.17h-1.77c-.08 0-.15.06-.15.17v1.56c0 .08.07.16.15.16m2.46 4.52h1.76c.09 0 .16-.07.16-.16V9.5c0-.08-.07-.16-.16-.16h-1.76c-.08 0-.15.07-.15.16v1.58c0 .09.07.16.15.16"/></svg></span> <strong><a href="getting-started/">Run with Docker Compose</a></strong></p>
+<hr />
+<p>One file, <code>docker compose up -d</code>, and the GenieACS console is on port 3000 in about a minute.</p>
+</li>
+<li>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20.2 5.9.8-.8C19.6 3.7 17.8 3 16 3s-3.6.7-5 2.1l.8.8C13 4.8 14.5 4.2 16 4.2s3 .6 4.2 1.7m-.9.8c-.9-.9-2.1-1.4-3.3-1.4s-2.4.5-3.3 1.4l.8.8c.7-.7 1.6-1 2.5-1s1.8.3 2.5 1zM19 13h-2V9h-2v4H5a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2M8 18H6v-2h2zm3.5 0h-2v-2h2zm3.5 0h-2v-2h2z"/></svg></span> <strong><a href="first-device/">Your first device</a></strong></p>
+<hr />
+<p>Point a CPE, or the bundled simulator, at port 7547 and watch it appear under Devices.</p>
+</li>
+<li>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 5v2h-4V5zM9 5v6H5V5zm10 8v6h-4v-6zM9 17v2H5v-2zM21 3h-8v6h8zM11 3H3v10h8zm10 8h-8v10h8zm-10 4H3v6h8z"/></svg></span> <strong><a href="usage/">Usage</a></strong></p>
+<hr />
+<p>The four services, the simulator and MCP profiles, extension scripts and the logs.</p>
+</li>
+<li>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 17v2h6v-2zM3 5v2h10V5zm10 16v-2h8v-2h-8v-2h-2v6zM7 9v2H3v2h4v2h2V9zm14 4v-2H11v2zm-6-4h2V7h4V5h-4V3h-2z"/></svg></span> <strong><a href="configuration/">Configuration</a></strong></p>
+<hr />
+<p>Every port, volume and environment variable, and the chart values that matter.</p>
+</li>
 </ul>
+</div>
+<h2 id="what-it-looks-like">What it looks like<a class="headerlink" href="#what-it-looks-like" title="Permanent link">&para;</a></h2>
+<p>The console is upstream GenieACS 1.2.16, served by image <code>1.2.16.6</code>. The devices in these screenshots are the <a href="first-device/#the-simulator">bundled simulator</a> (<code>--profile testing</code>), so you can see the same thing without hardware.</p>
+<p><img alt="The GenieACS Devices list: six simulated CPEs with serial number, product class, software version, IP, SSID, last inform and tags, and the filter bar above them" src="images/screenshots/devices.png" /></p>
+<div class="gc-shot-gallery">
+<figure>
+<p><a href="images/screenshots/overview.png"><img alt="The Overview page with the Online status chart: six devices online now" src="images/screenshots/overview.png" /></a></p>
+<figcaption>Overview: who is online</figcaption>
+</figure>
+<figure>
+<p><a href="images/screenshots/device.png"><img alt="One device's page: last inform, serial number, product class, software version, MAC, IP, WLAN SSID, the LAN hosts table and the start of the parameter list" src="images/screenshots/device.png" /></a></p>
+<figcaption>One device, every parameter</figcaption>
+</figure>
+<figure>
+<p><a href="images/screenshots/presets.png"><img alt="The Presets page under Admin: the bootstrap, default and inform presets plus one that targets a tag" src="images/screenshots/presets.png" /></a></p>
+<figcaption>Presets: configuration for many devices</figcaption>
+</figure>
+<figure>
+<p><a href="images/screenshots/files.png"><img alt="The Files page under Admin with one firmware image uploaded, showing its type, OUI, product class and version" src="images/screenshots/files.png" /></a></p>
+<figcaption>Files: firmware devices download</figcaption>
+</figure>
+</div>
+<h2 id="what-is-in-the-image">What is in the image<a class="headerlink" href="#what-is-in-the-image" title="Permanent link">&para;</a></h2>
+<ul>
+<li>The four GenieACS services in one container, under supervisord: <code>genieacs-cwmp</code> on 7547 (the ACS URL devices inform to), <code>genieacs-nbi</code> on 7557 (the REST API), <code>genieacs-fs</code> on 7567 (the file server) and <code>genieacs-ui</code> on 3000 (the console).</li>
+<li>GenieACS built from the upstream <code>v1.2.16</code> tag on Node 24, on Debian bookworm-slim. The image tag is the upstream version plus a build number: <code>1.2.16.6</code>.</li>
+<li>Logs rotated for you: each service writes its own file under <code>/var/log/genieacs</code>, and cron runs logrotate daily, 30 days kept, compressed.</li>
+<li>The GenieACS processes run as the unprivileged <code>genieacs</code> user (uid 999). Root is used once, to start cron, then dropped with <code>gosu</code>.</li>
+<li>MongoDB is not in the image. Compose starts <code>mongo:8.0</code> beside it; the chart bundles a MongoDB subchart for evaluation or takes your own.</li>
+</ul>
+<h2 id="how-it-runs">How it runs<a class="headerlink" href="#how-it-runs" title="Permanent link">&para;</a></h2>
+<pre class="mermaid"><code>flowchart LR
+    CPE[Routers, ONTs, the simulator]
+    OPS[Scripts, genieacs-mcp, genieacs-ha, genieacs-ansible]
+    BR[Browser]
+    subgraph image [drumsergio/genieacs]
+        CWMP[cwmp :7547]
+        NBI[nbi :7557]
+        FS[fs :7567]
+        UI[ui :3000]
+    end
+    DB[(MongoDB)]
+    CPE --&gt;|inform| CWMP
+    CPE --&gt;|download| FS
+    OPS --&gt; NBI
+    BR --&gt; UI
+    CWMP --&gt; DB
+    NBI --&gt; DB
+    FS --&gt; DB
+    UI --&gt; DB</code></pre>
+<ul>
+<li>On one host: <code>docker-compose.yml</code> runs the image and MongoDB on a private network, exposes the four ports, and keeps two optional services behind profiles: the <a href="first-device/#the-simulator">simulator</a> (<code>--profile testing</code>) and the <a href="usage/#optional-compose-services">MCP server</a> (<code>--profile mcp</code>).</li>
+<li>On Kubernetes: the chart makes one Deployment, one Service per port, a PersistentVolumeClaim for extension scripts, and, when you turn them on, an Ingress or a Gateway API HTTPRoute for the console and a PodDisruptionBudget. MongoDB comes from the bundled subchart, or from your own instance through <code>externalMongodb.url</code> or a Kubernetes Secret. See <a href="getting-started/#kubernetes-with-helm">Getting started</a> and <a href="how-it-works/">How it works</a>.</li>
+<li>Health: a Compose healthcheck on port 3000, and liveness and readiness probes in the chart.</li>
+<li>Upgrades: the tag moves when upstream GenieACS moves. Change the pin, <code>docker compose up -d</code> or <code>helm upgrade</code>, and the data in MongoDB stays. The <a href="https://github.com/GeiserX/genieacs-container/blob/main/CHANGELOG.md">changelog</a> lists every image and chart release.</li>
+</ul>
+<h2 id="what-it-does-not-do">What it does not do<a class="headerlink" href="#what-it-does-not-do" title="Permanent link">&para;</a></h2>
+<ul>
+<li>It does not change GenieACS. Provisions, presets, virtual parameters and the UI are upstream's; the <a href="https://docs.genieacs.com">GenieACS documentation</a> covers them.</li>
+<li>It does not terminate TLS. Put a reverse proxy, an Ingress or an HTTPRoute in front of the console and the CWMP port before exposing them.</li>
+<li>The bundled MongoDB subchart is for evaluation. Production runs MongoDB separately and points the chart at it.</li>
+<li>It runs one GenieACS replica by default.</li>
+</ul>
+<h2 id="security">Security<a class="headerlink" href="#security" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Change <code>GENIEACS_UI_JWT_SECRET</code> before exposing the console. The compose file ships with <code>changeme</code>; the chart's default is the same.</li>
+<li>Turn on MongoDB authentication. The compose file has the lines commented; the chart has <code>mongodb.auth.enabled</code>.</li>
+<li>In the chart, keep credentials out of <code>values.yaml</code>: <code>externalMongodb.existingSecret</code> for the connection string, <code>envFrom</code> or <code>extraEnvVars</code> for the rest. See <a href="configuration/#security">Configuration</a>.</li>
+<li>The pod starts as root for cron and drops every capability except <code>SETUID</code> and <code>SETGID</code>; the GenieACS processes run as uid 999.</li>
+<li>To report a security problem, follow the <a href="https://github.com/GeiserX/genieacs-container/blob/main/SECURITY.md">security policy</a> and do not open a public issue.</li>
+</ul>
+<h2 id="getting-help">Getting help<a class="headerlink" href="#getting-help" title="Permanent link">&para;</a></h2>
+<ul>
+<li>If something is broken, read <a href="troubleshooting/">Troubleshooting</a>, then open an issue with the details it lists.</li>
+<li>The <a href="https://github.com/GeiserX/genieacs-container/blob/main/CHANGELOG.md">changelog</a> lists what changed between releases.</li>
+<li>For GenieACS itself (provisions, data models, device quirks), the <a href="https://docs.genieacs.com">GenieACS documentation</a> and the <a href="https://forum.genieacs.com">GenieACS forum</a> are the places.</li>
+<li>The Ansible collection, the MCP server, the Home Assistant integration and the simulator are on <a href="related/">Related projects</a>.</li>
+<li>To build the image or send a fix, read <a href="development/">Development</a>.</li>
+</ul>
+<h2 id="license">License<a class="headerlink" href="#license" title="Permanent link">&para;</a></h2>
+<p>genieacs-container (the Dockerfile, the chart and the scripts) is released under the <a href="https://github.com/GeiserX/genieacs-container/blob/main/LICENSE">GPL-3.0-or-later</a> license. GenieACS, which the image packages, is <a href="https://github.com/genieacs/genieacs/blob/master/LICENSE">AGPL-3.0</a>.</p>
 
 
 
@@ -660,8 +1099,13 @@ and MongoDB with Docker Compose on one host, or on Kubernetes with the chart.</p
 
 
 
+  
+  
 
 
+
+
+  
 
 
 
@@ -718,6 +1162,17 @@ and MongoDB with Docker Compose on one host, or on Kubernetes with the chart.</p
     
     <a href="https://hub.docker.com/r/drumsergio/genieacs" target="_blank" rel="noopener" title="hub.docker.com" class="md-social__link">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M349.9 236.3h-66.1v-59.4h66.1zm0-204.3h-66.1v60.7h66.1zm78.2 144.8H362v59.4h66.1zm-156.3-72.1h-66.1v60.1h66.1zm78.1 0h-66.1v60.1h66.1zm276.8 100c-14.4-9.7-47.6-13.2-73.1-8.4-3.3-24-16.7-44.9-41.1-63.7l-14-9.3-9.3 14c-18.4 27.8-23.4 73.6-3.7 103.8-8.7 4.7-25.8 11.1-48.4 10.7H2.4c-8.7 50.8 5.8 116.8 44 162.1 37.1 43.9 92.7 66.2 165.4 66.2 157.4 0 273.9-72.5 328.4-204.2 21.4.4 67.6.1 91.3-45.2 1.5-2.5 6.6-13.2 8.5-17.1zm-511.1-27.9h-66v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1zm78.1 0h-66.1v59.4h66.1zm-78.1-72.1h-66.1v60.1h66.1z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://artifacthub.io/packages/helm/genieacs/genieacs" target="_blank" rel="noopener" title="artifacthub.io" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 24a3.43 3.43 0 0 1-1.78-.5l-7.51-4.292A3.4 3.4 0 0 1 1.07 16.3V7.73c0-1.253.636-2.37 1.76-3.01L10.25.479a3.43 3.43 0 0 1 3.496.001l7.42 4.238a3.4 3.4 0 0 1 1.762 3.01v8.582c0 .967-.443 2.164-1.637 2.898l-7.51 4.292c-.564.344-1.199.5-1.782.5zm-.5-21.347-7.545 4.31c-.2.156-.379.368-.379.767l.001 8.67a.96.96 0 0 0 .373.635l7.56 4.316c.266.172.664.21.985 0l7.518-4.296a.92.92 0 0 0 .41-.654V7.73a.92.92 0 0 0-.377-.766L12.5 2.652a.91.91 0 0 0-1 .001"/></svg>
     </a>
   
 </div>

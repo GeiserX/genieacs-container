@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://geiserx.github.io/genieacs-container/getting-started/">
+        <link rel="canonical" href="https://geiserx.github.io/genieacs-container/how-it-works/">
       
       
-        <link rel="prev" href="..">
+        <link rel="prev" href="../configuration/">
       
       
-        <link rel="next" href="../first-device/">
+        <link rel="next" href="../troubleshooting/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Getting started - genieacs-container</title>
+        <title>How it works - genieacs-container</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#getting-started" class="md-skip">
+        <a href="#how-it-works" class="md-skip">
           Skip to content
         </a>
       
@@ -113,7 +113,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Getting started
+              How it works
             
           </span>
         </div>
@@ -243,13 +243,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../getting-started/" class="md-tabs__link">
           
   
   
@@ -265,10 +263,12 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
+      <li class="md-tabs__item md-tabs__item--active">
         <a href="../configuration/" class="md-tabs__link">
           
   
@@ -375,31 +375,28 @@
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
             
   
   
@@ -417,7 +414,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -432,37 +429,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Getting started
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
         
   
   
@@ -478,98 +448,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#docker-compose" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Docker Compose
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#docker-run" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Docker run
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#kubernetes-with-helm" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Kubernetes with Helm
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Kubernetes with Helm">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#install-from-the-chart-repository" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Install from the chart repository
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#helmfile" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Helmfile
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#chart-values" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Chart values
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -642,28 +520,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
-        
-          
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   
@@ -681,7 +562,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -724,10 +605,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../how-it-works/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How it works
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -743,6 +651,70 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-in-the-image" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is in the image
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docker-compose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Docker Compose
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-helm-chart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Helm chart
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#releases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Releases
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -865,6 +837,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#what-is-in-the-image" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is in the image
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#docker-compose" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -876,10 +859,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#docker-run" class="md-nav__link">
+  <a href="#the-helm-chart" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Docker run
+        The Helm chart
       
     </span>
   </a>
@@ -887,52 +870,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#kubernetes-with-helm" class="md-nav__link">
+  <a href="#releases" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Kubernetes with Helm
+        Releases
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Kubernetes with Helm">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#install-from-the-chart-repository" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Install from the chart repository
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#helmfile" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Helmfile
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#chart-values" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Chart values
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -953,7 +897,7 @@
 
 
   
-    <a href="https://github.com/GeiserX/genieacs-container/edit/main/docs/getting-started.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/GeiserX/genieacs-container/edit/main/docs/how-it-works.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -961,114 +905,91 @@
   
 
 
-<h1 id="getting-started">Getting started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h1>
-<p>Three ways to run it: Docker Compose (GenieACS plus MongoDB on one host), <code>docker run</code> against a MongoDB
-you already have, or the Helm chart on Kubernetes. The image is <code>drumsergio/genieacs</code> on Docker Hub, for
-amd64 and arm64.</p>
+<h1 id="how-it-works">How it works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h1>
+<h2 id="what-is-in-the-image">What is in the image<a class="headerlink" href="#what-is-in-the-image" title="Permanent link">&para;</a></h2>
+<p><code>drumsergio/genieacs</code> is built in three stages (<code>Dockerfile</code>):</p>
+<ol>
+<li><code>node:24-bookworm</code> clones the upstream GenieACS tag (<code>v1.2.16</code>), runs <code>npm ci</code> and <code>npm run build</code>.</li>
+<li>A helper stage clones <a href="https://github.com/GeiserX/genieacs-services">genieacs-services</a> at the same
+   version for the supervisord configuration.</li>
+<li><code>debian:bookworm-slim</code> receives the Node runtime and the built GenieACS, plus supervisor, cron,
+   logrotate, gosu, wget and ping. It creates the <code>genieacs</code> user (uid 999) and the directories
+   <code>/opt/genieacs/ext</code> and <code>/var/log/genieacs</code>.</li>
+</ol>
+<p>At start, <code>entrypoint.sh</code> starts cron as root, then <code>exec gosu genieacs supervisord</code>. supervisord runs
+the four services straight from <code>/opt/genieacs/dist/bin/</code>; the <code>GENIEACS_*</code> variables reach them from the
+container's environment:</p>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Port</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>genieacs-cwmp</code></td>
+<td>7547</td>
+<td>The ACS endpoint. Devices inform here and receive their tasks.</td>
+</tr>
+<tr>
+<td><code>genieacs-nbi</code></td>
+<td>7557</td>
+<td>The northbound REST API. Scripts, the MCP server, Ansible and Home Assistant use it.</td>
+</tr>
+<tr>
+<td><code>genieacs-fs</code></td>
+<td>7567</td>
+<td>The file server devices download firmware and configuration from.</td>
+</tr>
+<tr>
+<td><code>genieacs-ui</code></td>
+<td>3000</td>
+<td>The web console.</td>
+</tr>
+</tbody>
+</table>
+<p>All four talk to MongoDB through <code>GENIEACS_MONGODB_CONNECTION_URL</code>. Nothing else is stateful: the
+extension scripts directory and the logs are the only paths worth a volume.</p>
+<p>cron runs logrotate once a day over <code>/var/log/genieacs/*.log</code> and <code>*.yaml</code>: 30 rotations kept, compressed
+from the second day, dated file names.</p>
 <h2 id="docker-compose">Docker Compose<a class="headerlink" href="#docker-compose" title="Permanent link">&para;</a></h2>
-<p>The repository's <code>docker-compose.yml</code> runs GenieACS and MongoDB together. Fetch it and start the stack:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>curl<span class="w"> </span>-fsSLO<span class="w"> </span>https://raw.githubusercontent.com/GeiserX/genieacs-container/main/docker-compose.yml
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
-</code></pre></div>
-<p>This starts GenieACS (ports 7547, 7557, 7567 and 3000) and MongoDB (port 27017, inside the Compose network
-only). GenieACS waits for MongoDB to report healthy, so the UI takes about 30 seconds to come up. What
-working looks like: http://localhost:3000 opens the GenieACS UI, and <code>docker compose ps</code> shows <code>genieacs</code>
-as <code>healthy</code>. The first visit shows the initialization wizard; accept its defaults, log in as <code>admin</code> / <code>admin</code>
-and change the password. Then <a href="../first-device/">point a device at it</a>.</p>
-<p>Before you expose it, change <code>GENIEACS_UI_JWT_SECRET</code> in the file from <code>changeme</code>, and turn on MongoDB
-authentication; the commented lines in the file show how.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># View logs</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>docker<span class="w"> </span>compose<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>genieacs
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Stop all services</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>docker<span class="w"> </span>compose<span class="w"> </span>down
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># Stop and remove volumes</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>docker<span class="w"> </span>compose<span class="w"> </span>down<span class="w"> </span>-v
-</code></pre></div>
-<p>Two optional services sit behind profiles:</p>
+<p><code>docker-compose.yml</code> defines four services on one private network:</p>
 <ul>
-<li><code>genieacs-sim</code>: a simulated CPE for testing, <code>docker compose --profile testing up -d</code></li>
-<li><code>genieacs-mcp</code>: the MCP server, <code>docker compose --profile mcp up -d</code></li>
+<li><code>genieacs</code>, the image, with the four ports published, a healthcheck on port 3000 (<code>wget --spider</code>, 60 s
+  start period), the <code>ext_volume</code> volume on <code>/opt/genieacs/ext</code>, and <code>depends_on</code> MongoDB being healthy.</li>
+<li><code>mongo</code>, <code>mongo:8.0</code>, with its data and config volumes, port 27017 exposed to the network only, a
+  <code>mongosh</code> ping healthcheck.</li>
+<li><code>genieacs-sim</code> (profile <code>testing</code>), the simulator, started after <code>genieacs</code> is healthy.</li>
+<li><code>genieacs-mcp</code> (profile <code>mcp</code>), the MCP server on 8080, talking to the NBI with the wizard's default
+  login.</li>
 </ul>
-<h2 id="docker-run">Docker run<a class="headerlink" href="#docker-run" title="Permanent link">&para;</a></h2>
-<p>With a MongoDB you already run:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span>--name<span class="w"> </span>genieacs<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span>-p<span class="w"> </span><span class="m">7547</span>:7547<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span>-p<span class="w"> </span><span class="m">7557</span>:7557<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span>-p<span class="w"> </span><span class="m">7567</span>:7567<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span>-p<span class="w"> </span><span class="m">3000</span>:3000<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">  </span>-e<span class="w"> </span><span class="nv">GENIEACS_MONGODB_CONNECTION_URL</span><span class="o">=</span>mongodb://your-mongo-host/genieacs<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">  </span>-e<span class="w"> </span><span class="nv">GENIEACS_UI_JWT_SECRET</span><span class="o">=</span>your-secret-here<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">  </span>drumsergio/genieacs:1.2.16.6
-</code></pre></div>
-<h2 id="kubernetes-with-helm">Kubernetes with Helm<a class="headerlink" href="#kubernetes-with-helm" title="Permanent link">&para;</a></h2>
-<h3 id="install-from-the-chart-repository">Install from the chart repository<a class="headerlink" href="#install-from-the-chart-repository" title="Permanent link">&para;</a></h3>
-<p>Add the chart repository:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>genieacs<span class="w"> </span>https://geiserx.github.io/genieacs-container
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>helm<span class="w"> </span>repo<span class="w"> </span>update
-</code></pre></div>
-<p>Install GenieACS:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>helm<span class="w"> </span>install<span class="w"> </span>genieacs<span class="w"> </span>genieacs/genieacs<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span>--namespace<span class="w"> </span>genieacs<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span>--create-namespace<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span>--set<span class="w"> </span>env.GENIEACS_UI_JWT_SECRET<span class="o">=</span><span class="k">$(</span>openssl<span class="w"> </span>rand<span class="w"> </span>-hex<span class="w"> </span><span class="m">32</span><span class="k">)</span>
-</code></pre></div>
-<p>What working looks like: <code>kubectl -n genieacs get pods</code> shows a <code>genieacs-...</code> pod and a
-<code>genieacs-mongodb-...</code> pod, both <code>Running</code> and <code>1/1</code> within about two minutes (the readiness probe waits
-30 s). Port-forward the console with <code>kubectl -n genieacs port-forward svc/genieacs-http 3000:3000</code> (the
-chart's notes print the same command with local port 8080), then open http://localhost:3000 and run the
-wizard. Devices reach the ACS through the <code>genieacs-cwmp</code> Service; expose it with a LoadBalancer or a TCP
-route before a real CPE can inform.</p>
-<p>This deploys GenieACS with a MongoDB instance included by default (no auth). For production with MongoDB auth:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>helm<span class="w"> </span>install<span class="w"> </span>genieacs<span class="w"> </span>genieacs/genieacs<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span>--namespace<span class="w"> </span>genieacs<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span>--create-namespace<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span>--set<span class="w"> </span>mongodb.auth.enabled<span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span>--set<span class="w"> </span>mongodb.auth.rootPassword<span class="o">=</span><span class="k">$(</span>openssl<span class="w"> </span>rand<span class="w"> </span>-base64<span class="w"> </span><span class="m">24</span><span class="k">)</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">  </span>--set<span class="w"> </span>env.GENIEACS_UI_JWT_SECRET<span class="o">=</span><span class="k">$(</span>openssl<span class="w"> </span>rand<span class="w"> </span>-hex<span class="w"> </span><span class="m">32</span><span class="k">)</span>
-</code></pre></div>
-<p>To use an external MongoDB (connection string inline):</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>helm<span class="w"> </span>install<span class="w"> </span>genieacs<span class="w"> </span>genieacs/genieacs<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span>--namespace<span class="w"> </span>genieacs<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span>--create-namespace<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span>--set<span class="w"> </span>mongodb.enabled<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">  </span>--set<span class="w"> </span>externalMongodb.url<span class="o">=</span>mongodb://your-mongo-host/genieacs
-</code></pre></div>
-<p>To use an external MongoDB with the connection string sourced from a
-Kubernetes Secret (recommended for production: keeps credentials out
-of values files and out of the pod spec):</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>genieacs-mongodb<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span>--namespace<span class="w"> </span>genieacs<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span>--from-literal<span class="o">=</span><span class="nv">connectionString</span><span class="o">=</span><span class="s2">"mongodb+srv://user:pass@cluster.example.net/genieacs?retryWrites=true"</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>helm<span class="w"> </span>install<span class="w"> </span>genieacs<span class="w"> </span>genieacs/genieacs<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">  </span>--namespace<span class="w"> </span>genieacs<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">  </span>--create-namespace<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">  </span>--set<span class="w"> </span>mongodb.enabled<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">  </span>--set<span class="w"> </span>externalMongodb.existingSecret<span class="o">=</span>genieacs-mongodb
-</code></pre></div>
-<p>This pattern integrates with External Secrets Operator, Sealed Secrets,
-Vault, and operators that write connection details to a Kubernetes
-Secret (MongoDB Atlas Operator, MongoDB Controllers for Kubernetes
-(MCK), the Percona Operator).</p>
-<blockquote>
-<p><strong>Production note:</strong> The bundled Bitnami MongoDB subchart is intended
-for development and evaluation only. For production deployments, run
-MongoDB separately — managed (MongoDB Atlas), operator-managed
-(<a href="https://github.com/mongodb/mongodb-kubernetes">MCK</a>,
-<a href="https://github.com/percona/percona-server-mongodb-operator">Percona Operator for MongoDB</a>),
-or self-hosted — and point the chart at it using
-<code>externalMongodb.existingSecret</code>.</p>
-</blockquote>
-<h3 id="helmfile">Helmfile<a class="headerlink" href="#helmfile" title="Permanent link">&para;</a></h3>
-<p>See the <a href="https://github.com/GeiserX/genieacs-container/tree/main/examples">examples directory</a> for a complete Helmfile deployment example:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>helmfile<span class="w"> </span>-f<span class="w"> </span>examples/helmfile.yaml<span class="w"> </span>apply
-</code></pre></div>
-<h3 id="chart-values">Chart values<a class="headerlink" href="#chart-values" title="Permanent link">&para;</a></h3>
-<p>The chart values that matter are on <a href="../configuration/#helm-chart-values">Configuration</a>; the full file is
-<a href="https://github.com/GeiserX/genieacs-container/blob/main/charts/genieacs/values.yaml">values.yaml</a>.</p>
+<h2 id="the-helm-chart">The Helm chart<a class="headerlink" href="#the-helm-chart" title="Permanent link">&para;</a></h2>
+<p><code>charts/genieacs</code> (0.5.2) creates:</p>
+<ul>
+<li>one Deployment (<code>replicaCount: 1</code>) running the image with the <code>env</code> block as environment, resource
+  requests of 500m CPU and 2Gi memory, a 4Gi memory limit, liveness and readiness probes on port 3000;</li>
+<li>four Services, one per port: <code>&lt;release&gt;-http</code> (3000), <code>&lt;release&gt;-cwmp</code> (7547), <code>&lt;release&gt;-nbi</code> (7557),
+  <code>&lt;release&gt;-fs</code> (7567), all <code>ClusterIP</code> by default;</li>
+<li>a PersistentVolumeClaim (5Gi, <code>ReadWriteOnce</code>) mounted at <code>/opt/genieacs/ext</code>;</li>
+<li>a ServiceAccount;</li>
+<li>an Ingress or a Gateway API HTTPRoute for the console when enabled, a PodDisruptionBudget when enabled,
+  and a <code>helm test</code> Pod that connects to the console.</li>
+</ul>
+<p>MongoDB comes from the Bitnami subchart (<code>mongodb.enabled: true</code>, pinned by image digest) or from your
+own instance: <code>externalMongodb.url</code>, or <code>externalMongodb.existingSecret</code> with the connection string in
+a Secret, which the pod reads at start through <code>valueFrom</code>. With the subchart and <code>mongodb.auth.enabled</code>,
+the chart builds the authenticated URI itself.</p>
+<p>The pod runs as root (<code>runAsUser: 0</code>) so cron can start, drops every capability except <code>SETUID</code> and
+<code>SETGID</code>, and the GenieACS processes run as uid 999 after gosu. <code>fsGroup: 999</code> keeps the extension
+volume writable.</p>
+<h2 id="releases">Releases<a class="headerlink" href="#releases" title="Permanent link">&para;</a></h2>
+<p>Nothing is built by hand. When <code>Dockerfile</code>, <code>entrypoint.sh</code> or <code>config/</code> change on <code>main</code>, <code>ci.yml</code>
+builds amd64 and arm64, pushes <code>drumsergio/genieacs:&lt;version&gt;</code> plus per-arch tags, syncs this README to
+Docker Hub and creates the GitHub release. <code>upstream-check.yml</code> watches GenieACS for new tags.
+<code>release-chart.yml</code> packages the chart and updates <code>index.yaml</code> on <code>gh-pages</code>, the same branch this site
+is served from. See <a href="../development/">Development</a>.</p>
 
 
 
