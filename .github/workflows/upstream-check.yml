@@ -72,6 +72,7 @@ jobs:
           4. **Post-release** (optional, for repo consistency):
              - Update \`docker-compose.yml\` image tag
              - Bump Helm chart \`appVersion\` + \`version\` in \`charts/genieacs/Chart.yaml\`
+             - Update the version strings in \`README.md\` and \`docs/\` (\`index.md\`, \`how-it-works.md\`)
 
           [View upstream releases](https://github.com/genieacs/genieacs/releases)
           EOF

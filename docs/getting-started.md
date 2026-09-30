@@ -16,7 +16,8 @@ docker compose up -d
 This starts GenieACS (ports 7547, 7557, 7567 and 3000) and MongoDB (port 27017, inside the Compose network
 only). GenieACS waits for MongoDB to report healthy, so the UI takes about 30 seconds to come up. What
 working looks like: http://localhost:3000 opens the GenieACS UI, and `docker compose ps` shows `genieacs`
-as `healthy`.
+as `healthy`. The first visit shows the initialization wizard; accept its defaults, log in as `admin` / `admin`
+and change the password. Then [point a device at it](first-device.md).
 
 Before you expose it, change `GENIEACS_UI_JWT_SECRET` in the file from `changeme`, and turn on MongoDB
 authentication; the commented lines in the file show how.
@@ -55,7 +56,7 @@ docker run -d \
 
 ## Kubernetes with Helm
 
-### Using the Official Chart Repository
+### Install from the chart repository
 
 Add the chart repository:
 
@@ -70,8 +71,15 @@ Install GenieACS:
 helm install genieacs genieacs/genieacs \
   --namespace genieacs \
   --create-namespace \
-  --set env.GENIEACS_UI_JWT_SECRET=your-secret-here
+  --set env.GENIEACS_UI_JWT_SECRET=$(openssl rand -hex 32)
 ```
+
+What working looks like: `kubectl -n genieacs get pods` shows a `genieacs-...` pod and a
+`genieacs-mongodb-...` pod, both `Running` and `1/1` within about two minutes (the readiness probe waits
+30 s). Port-forward the console with `kubectl -n genieacs port-forward svc/genieacs-http 3000:3000` (the
+chart's notes print the same command with local port 8080), then open http://localhost:3000 and run the
+wizard. Devices reach the ACS through the `genieacs-cwmp` Service; expose it with a LoadBalancer or a TCP
+route before a real CPE can inform.
 
 This deploys GenieACS with a MongoDB instance included by default (no auth). For production with MongoDB auth:
 
@@ -80,8 +88,8 @@ helm install genieacs genieacs/genieacs \
   --namespace genieacs \
   --create-namespace \
   --set mongodb.auth.enabled=true \
-  --set mongodb.auth.rootPassword=your-secure-password \
-  --set env.GENIEACS_UI_JWT_SECRET=your-secret-here
+  --set mongodb.auth.rootPassword=$(openssl rand -base64 24) \
+  --set env.GENIEACS_UI_JWT_SECRET=$(openssl rand -hex 32)
 ```
 
 To use an external MongoDB (connection string inline):
@@ -95,7 +103,7 @@ helm install genieacs genieacs/genieacs \
 ```
 
 To use an external MongoDB with the connection string sourced from a
-Kubernetes Secret (recommended for production — keeps credentials out
+Kubernetes Secret (recommended for production: keeps credentials out
 of values files and out of the pod spec):
 
 ```bash
@@ -123,7 +131,7 @@ Secret (MongoDB Atlas Operator, MongoDB Controllers for Kubernetes
 > or self-hosted — and point the chart at it using
 > `externalMongodb.existingSecret`.
 
-### Using Helmfile
+### Helmfile
 
 See the [examples directory](https://github.com/GeiserX/genieacs-container/tree/main/examples) for a complete Helmfile deployment example:
 
@@ -131,78 +139,7 @@ See the [examples directory](https://github.com/GeiserX/genieacs-container/tree/
 helmfile -f examples/helmfile.yaml apply
 ```
 
-### Chart Configuration
+### Chart values
 
-Key configuration options in `values.yaml`:
-
-```yaml
-image:
-  repository: drumsergio/genieacs
-  tag: "1.2.16.6"
-
-replicaCount: 1
-
-ingress:
-  enabled: false
-  className: ""  # e.g. "nginx", "traefik"
-
-# Kubernetes Gateway API alternative to `ingress` (requires the
-# Gateway API CRDs and a Gateway controller in the cluster).
-# Only `parentRefs` is required when enabled.
-httpRoute:
-  enabled: false
-  parentRefs: []
-  # - name: my-gateway
-  #   namespace: gateway-system
-  #   sectionName: https
-  hostnames:
-    - genieacs.local
-  # Optional. Omit to match every request. Besides `path`, each entry
-  # accepts `method`, `headers` and `queryParams`.
-  matches:
-    - path:
-        type: PathPrefix
-        value: /
-
-env:
-  GENIEACS_UI_JWT_SECRET: changeme
-
-# Inject env vars from Kubernetes Secrets/ConfigMaps
-envFrom: []
-# - secretRef:
-#     name: genieacs-secrets
-
-# Env vars with valueFrom (e.g. secretKeyRef)
-extraEnvVars: []
-
-# Bitnami MongoDB subchart (deployed alongside GenieACS by default)
-mongodb:
-  enabled: true
-  auth:
-    enabled: false
-  persistence:
-    enabled: true
-    size: 8Gi
-
-# Used when mongodb.enabled is false (bring your own MongoDB).
-# Set either `url` directly, or `existingSecret` + `secretKey` to
-# source the connection string from a Kubernetes Secret (recommended
-# for production). If both are set, `existingSecret` takes precedence.
-externalMongodb:
-  url: ""
-  existingSecret: ""
-  secretKey: "connectionString"
-
-persistence:
-  enabled: true
-  size: 5Gi
-
-resources:
-  limits:
-    memory: 4Gi
-  requests:
-    cpu: 500m
-    memory: 2Gi
-```
-
-For complete configuration options, see [charts/genieacs/values.yaml](https://github.com/GeiserX/genieacs-container/blob/main/charts/genieacs/values.yaml).
+The chart values that matter are on [Configuration](configuration.md#helm-chart-values); the full file is
+[values.yaml](https://github.com/GeiserX/genieacs-container/blob/main/charts/genieacs/values.yaml).

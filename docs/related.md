@@ -15,7 +15,7 @@ This image is part of a broader set of tools for working with GenieACS:
 
 ## Related ISP tools
 
-- [router-express](https://github.com/GeiserX/router-express) — Auto-configure routers and sync databases
-- [services-isp](https://github.com/GeiserX/services-isp) — Automate common ISP operational tasks
-- [statix](https://github.com/GeiserX/statix) — Real-time ISP network statistics dashboard
-- [ScriptPoblar](https://github.com/GeiserX/ScriptPoblar) — Batch device provisioning and CRM operations
+- [router-express](https://github.com/GeiserX/router-express): Auto-configure routers and sync databases
+- [services-isp](https://github.com/GeiserX/services-isp): Automate common ISP operational tasks
+- [statix](https://github.com/GeiserX/statix): Real-time ISP network statistics dashboard
+- [ScriptPoblar](https://github.com/GeiserX/ScriptPoblar): Batch device provisioning and CRM operations
