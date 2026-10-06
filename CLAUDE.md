@@ -191,7 +191,7 @@ The chart includes Bitnami MongoDB as an optional subchart (`mongodb.enabled: tr
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `GENIEACS_MONGODB_CONNECTION_URL` | *(required)* | MongoDB connection string |
-| `GENIEACS_UI_JWT_SECRET` | `changeme` | JWT secret for UI auth — **change in production** |
+| `GENIEACS_UI_JWT_SECRET` | compose: none, required; chart: `changeme` | JWT secret for UI auth — **change in production** |
 | `GENIEACS_CWMP_ACCESS_LOG_FILE` | — | Path for CWMP access log |
 | `GENIEACS_NBI_ACCESS_LOG_FILE` | — | Path for NBI access log |
 | `GENIEACS_FS_ACCESS_LOG_FILE` | — | Path for FS access log |
@@ -242,7 +242,7 @@ This file should evolve as the project grows:
 ## Security Notice
 
 > **Do not commit secrets to the repository.**
-> The `GENIEACS_UI_JWT_SECRET` in docker-compose.yml is a placeholder — always change it in production.
+> docker-compose.yml takes `GENIEACS_UI_JWT_SECRET` from the environment or `.env` and refuses to start without it; never put a default value back. The chart's `changeme` is a placeholder — always change it in production.
 > MongoDB authentication is disabled by default for development convenience — enable it for production.
 > Use environment variables or Kubernetes Secrets for all credentials.
 
