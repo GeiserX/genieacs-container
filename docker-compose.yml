@@ -9,7 +9,10 @@ services:
     restart: unless-stopped
     container_name: genieacs
     environment:
-      GENIEACS_UI_JWT_SECRET: changeme
+      # Signs the UI login tokens. Compose refuses to start without it, so a
+      # known default never reaches a console. Generate one next to this file:
+      #   echo "GENIEACS_UI_JWT_SECRET=$(openssl rand -hex 32)" >> .env
+      GENIEACS_UI_JWT_SECRET: ${GENIEACS_UI_JWT_SECRET:?set GENIEACS_UI_JWT_SECRET in .env next to docker-compose.yml, see the comment above it}
       GENIEACS_CWMP_ACCESS_LOG_FILE: /var/log/genieacs/genieacs-cwmp-access.log
       GENIEACS_NBI_ACCESS_LOG_FILE: /var/log/genieacs/genieacs-nbi-access.log
       GENIEACS_FS_ACCESS_LOG_FILE: /var/log/genieacs/genieacs-fs-access.log

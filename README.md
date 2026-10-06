@@ -32,6 +32,7 @@
 ```bash
 # Docker Compose: GenieACS and MongoDB on one host
 curl -fsSLO https://raw.githubusercontent.com/GeiserX/genieacs-container/main/docker-compose.yml
+echo "GENIEACS_UI_JWT_SECRET=$(openssl rand -hex 32)" >> .env
 docker compose up -d
 
 # Kubernetes: the same image through the Helm chart
@@ -40,7 +41,7 @@ helm install genieacs genieacs/genieacs --namespace genieacs --create-namespace 
   --set env.GENIEACS_UI_JWT_SECRET=$(openssl rand -hex 32)
 ```
 
-Open http://localhost:3000 (on Kubernetes, `kubectl -n genieacs port-forward svc/genieacs-http 3000:3000` first): the first visit runs a setup wizard that creates the `admin` / `admin` login, and your devices inform to `http://<host>:7547/`. Change `GENIEACS_UI_JWT_SECRET` from `changeme` in the compose file before you expose the console. `docker run`, an external MongoDB, Helmfile and the chart values are in [Getting started](https://geiserx.github.io/genieacs-container/getting-started/).
+Open http://localhost:3000 (on Kubernetes, `kubectl -n genieacs port-forward svc/genieacs-http 3000:3000` first): the first visit runs a setup wizard that creates the `admin` / `admin` login, and your devices inform to `http://<host>:7547/`. The compose file has no default `GENIEACS_UI_JWT_SECRET` and refuses to start without one; the `echo` line above writes a random one to `.env`. `docker run`, an external MongoDB, Helmfile and the chart values are in [Getting started](https://geiserx.github.io/genieacs-container/getting-started/).
 
 ## Documentation
 

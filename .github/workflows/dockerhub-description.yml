@@ -1,0 +1,24 @@
+name: Docker Hub Description
+
+on:
+  push:
+    branches: [main]
+    paths: [README.md]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  update-description:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: peter-evans/dockerhub-description@v5
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: drumsergio/genieacs
+          short-description: "GenieACS (TR-069 ACS) Docker image with multi-arch support"
+          readme-filepath: ./README.md

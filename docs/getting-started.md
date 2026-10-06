@@ -10,6 +10,7 @@ The repository's `docker-compose.yml` runs GenieACS and MongoDB together. Fetch 
 
 ```bash
 curl -fsSLO https://raw.githubusercontent.com/GeiserX/genieacs-container/main/docker-compose.yml
+echo "GENIEACS_UI_JWT_SECRET=$(openssl rand -hex 32)" >> .env
 docker compose up -d
 ```
 
@@ -19,7 +20,9 @@ working looks like: http://localhost:3000 opens the GenieACS UI, and `docker com
 as `healthy`. The first visit shows the initialization wizard; accept its defaults, log in as `admin` / `admin`
 and change the password. Then [point a device at it](first-device.md).
 
-Before you expose it, change `GENIEACS_UI_JWT_SECRET` in the file from `changeme`, and turn on MongoDB
+The `echo` line writes a random `GENIEACS_UI_JWT_SECRET`, which signs the UI login tokens, to `.env`.
+The compose file has no default for it: without one, `docker compose up` stops with
+`required variable GENIEACS_UI_JWT_SECRET is missing a value`. Before you expose it, turn on MongoDB
 authentication; the commented lines in the file show how.
 
 ```bash
