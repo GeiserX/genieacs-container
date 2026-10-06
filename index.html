@@ -1076,7 +1076,7 @@
 </ul>
 <h2 id="security">Security<a class="headerlink" href="#security" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Change <code>GENIEACS_UI_JWT_SECRET</code> before exposing the console. The compose file ships with <code>changeme</code>; the chart's default is the same.</li>
+<li>Set your own <code>GENIEACS_UI_JWT_SECRET</code>. The compose file has no default and refuses to start without one; the chart still defaults to <code>changeme</code>, so set it there before exposing the console.</li>
 <li>Turn on MongoDB authentication. The compose file has the lines commented; the chart has <code>mongodb.auth.enabled</code>.</li>
 <li>In the chart, keep credentials out of <code>values.yaml</code>: <code>externalMongodb.existingSecret</code> for the connection string, <code>envFrom</code> or <code>extraEnvVars</code> for the rest. See <a href="configuration/#security">Configuration</a>.</li>
 <li>The pod starts as root for cron and drops every capability except <code>SETUID</code> and <code>SETGID</code>; the GenieACS processes run as uid 999.</li>

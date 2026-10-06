@@ -968,14 +968,17 @@ amd64 and arm64.</p>
 <h2 id="docker-compose">Docker Compose<a class="headerlink" href="#docker-compose" title="Permanent link">&para;</a></h2>
 <p>The repository's <code>docker-compose.yml</code> runs GenieACS and MongoDB together. Fetch it and start the stack:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>curl<span class="w"> </span>-fsSLO<span class="w"> </span>https://raw.githubusercontent.com/GeiserX/genieacs-container/main/docker-compose.yml
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"GENIEACS_UI_JWT_SECRET=</span><span class="k">$(</span>openssl<span class="w"> </span>rand<span class="w"> </span>-hex<span class="w"> </span><span class="m">32</span><span class="k">)</span><span class="s2">"</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>.env
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
 </code></pre></div>
 <p>This starts GenieACS (ports 7547, 7557, 7567 and 3000) and MongoDB (port 27017, inside the Compose network
 only). GenieACS waits for MongoDB to report healthy, so the UI takes about 30 seconds to come up. What
 working looks like: http://localhost:3000 opens the GenieACS UI, and <code>docker compose ps</code> shows <code>genieacs</code>
 as <code>healthy</code>. The first visit shows the initialization wizard; accept its defaults, log in as <code>admin</code> / <code>admin</code>
 and change the password. Then <a href="../first-device/">point a device at it</a>.</p>
-<p>Before you expose it, change <code>GENIEACS_UI_JWT_SECRET</code> in the file from <code>changeme</code>, and turn on MongoDB
+<p>The <code>echo</code> line writes a random <code>GENIEACS_UI_JWT_SECRET</code>, which signs the UI login tokens, to <code>.env</code>.
+The compose file has no default for it: without one, <code>docker compose up</code> stops with
+<code>required variable GENIEACS_UI_JWT_SECRET is missing a value</code>. Before you expose it, turn on MongoDB
 authentication; the commented lines in the file show how.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># View logs</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>docker<span class="w"> </span>compose<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>genieacs
