@@ -84,3 +84,46 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Where GENIEACS_UI_JWT_SECRET comes from: "existingSecret", "value" or "extraEnvVars".
+The UI signs its login tokens with this secret, so the chart has no default and
+stops rendering (install, upgrade, template) when it is missing, set twice, or
+left at a placeholder. Every template that needs the source includes this, so
+the check runs whatever the render path.
+*/}}
+{{- define "genieacs.uiJwtSecret.source" -}}
+{{- $name := "GENIEACS_UI_JWT_SECRET" -}}
+{{- $placeholders := list "changeme" "change-me" "your-secret-here" -}}
+{{- $sources := list -}}
+{{- $values := list -}}
+{{- if .Values.uiJwtSecret.existingSecret -}}
+{{- $sources = append $sources "existingSecret" -}}
+{{- end -}}
+{{- $env := .Values.env | default dict -}}
+{{- if hasKey $env $name -}}
+{{- $sources = append $sources "value" -}}
+{{- $values = append $values (get $env $name | toString) -}}
+{{- end -}}
+{{- range .Values.extraEnvVars -}}
+{{- if eq (toString .name) $name -}}
+{{- $sources = append $sources "extraEnvVars" -}}
+{{- if hasKey . "value" -}}
+{{- $values = append $values (toString .value) -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+{{- $howTo := printf "Generate one and keep it in a Secret (recommended, it never sits in a values file):\n  kubectl create secret generic %s-ui-jwt --namespace %s --from-literal=%s=\"$(openssl rand -hex 32)\"\n  helm ... --set uiJwtSecret.existingSecret=%s-ui-jwt\nor pass the value itself:\n  helm ... --set env.%s=\"$(openssl rand -hex 32)\"" .Release.Name .Release.Namespace $name .Release.Name $name -}}
+{{- if not $sources -}}
+{{- fail (printf "\n\n%s is not set. The GenieACS UI signs its login tokens with it and this chart has no default.\n%s\n" $name $howTo) -}}
+{{- end -}}
+{{- if gt (len $sources) 1 -}}
+{{- fail (printf "\n\n%s is set in more than one place (%s). Keep exactly one: uiJwtSecret.existingSecret, env.%s or an extraEnvVars entry.\n" $name (join ", " $sources) $name) -}}
+{{- end -}}
+{{- range $values -}}
+{{- if or (not .) (has (lower .) $placeholders) -}}
+{{- fail (printf "\n\n%s is %q, which is empty or a placeholder anyone can guess. Anyone who knows it can forge a UI login.\n%s\n" $name . $howTo) -}}
+{{- end -}}
+{{- end -}}
+{{- first $sources -}}
+{{- end -}}

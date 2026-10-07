@@ -1,8 +1,11 @@
 # GenieACS Helm chart values
 # See charts/genieacs/values.yaml for all options
 
-env:
-  GENIEACS_UI_JWT_SECRET: changeme  # Override via genieacs-secrets.yaml
+# The UI JWT secret comes from a Secret you create once:
+#   kubectl create secret generic genieacs-ui-jwt --namespace genieacs \
+#     --from-literal=GENIEACS_UI_JWT_SECRET="$(openssl rand -hex 32)"
+uiJwtSecret:
+  existingSecret: genieacs-ui-jwt
 
 # Bundled MongoDB (Bitnami subchart)
 mongodb:

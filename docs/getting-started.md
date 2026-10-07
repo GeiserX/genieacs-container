@@ -53,7 +53,7 @@ docker run -d \
   -p 7567:7567 \
   -p 3000:3000 \
   -e GENIEACS_MONGODB_CONNECTION_URL=mongodb://your-mongo-host/genieacs \
-  -e GENIEACS_UI_JWT_SECRET=your-secret-here \
+  -e GENIEACS_UI_JWT_SECRET="$(openssl rand -hex 32)" \
   drumsergio/genieacs:1.2.16.6
 ```
 
@@ -75,6 +75,21 @@ helm install genieacs genieacs/genieacs \
   --namespace genieacs \
   --create-namespace \
   --set env.GENIEACS_UI_JWT_SECRET=$(openssl rand -hex 32)
+```
+
+The chart has no default `GENIEACS_UI_JWT_SECRET`: without one, `helm install` and `helm upgrade` stop
+before touching the cluster with `GENIEACS_UI_JWT_SECRET is not set` and the commands to make one. The
+`--set` line above passes a random one. To keep it out of values files and the Deployment spec, put it in a
+Secret and name that Secret instead:
+
+```bash
+kubectl create namespace genieacs
+kubectl create secret generic genieacs-ui-jwt --namespace genieacs \
+  --from-literal=GENIEACS_UI_JWT_SECRET="$(openssl rand -hex 32)"
+
+helm install genieacs genieacs/genieacs \
+  --namespace genieacs \
+  --set uiJwtSecret.existingSecret=genieacs-ui-jwt
 ```
 
 What working looks like: `kubectl -n genieacs get pods` shows a `genieacs-...` pod and a

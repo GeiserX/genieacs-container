@@ -41,7 +41,7 @@ helm install genieacs genieacs/genieacs --namespace genieacs --create-namespace 
   --set env.GENIEACS_UI_JWT_SECRET=$(openssl rand -hex 32)
 ```
 
-Open http://localhost:3000 (on Kubernetes, `kubectl -n genieacs port-forward svc/genieacs-http 3000:3000` first): the first visit runs a setup wizard that creates the `admin` / `admin` login, and your devices inform to `http://<host>:7547/`. The compose file has no default `GENIEACS_UI_JWT_SECRET` and refuses to start without one; the `echo` line above writes a random one to `.env`. `docker run`, an external MongoDB, Helmfile and the chart values are in [Getting started](https://geiserx.github.io/genieacs-container/getting-started/).
+Open http://localhost:3000 (on Kubernetes, `kubectl -n genieacs port-forward svc/genieacs-http 3000:3000` first): the first visit runs a setup wizard that creates the `admin` / `admin` login, and your devices inform to `http://<host>:7547/`. Neither the compose file nor the chart has a default `GENIEACS_UI_JWT_SECRET`, and both refuse to start without one; the `echo` and `--set` lines above make a random one. On Kubernetes you can keep it in a Secret instead, with `uiJwtSecret.existingSecret`. `docker run`, an external MongoDB, Helmfile and the chart values are in [Getting started](https://geiserx.github.io/genieacs-container/getting-started/).
 
 ## Documentation
 

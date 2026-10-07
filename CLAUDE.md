@@ -25,7 +25,7 @@ Project description: Production-ready Docker image and Helm chart for [GenieACS]
 - **License:** GPL-3.0
 - **Commits:** Follow [Conventional Commits](https://conventionalcommits.org) format
 - **Versioning:** Custom 4-part scheme — see [Versioning Scheme](#versioning-scheme) below
-- **CI/CD:** GitHub Actions (`ci.yml` for Docker, `release-chart.yml` for Helm, `upstream-check.yml` for monitoring)
+- **CI/CD:** GitHub Actions (`ci.yml` for Docker, `chart.yml` to check the chart, `release-chart.yml` for Helm, `upstream-check.yml` for monitoring)
 - **Docker Image:** `drumsergio/genieacs` on Docker Hub
 - **Helm Repo:** `https://geiserx.github.io/genieacs-container` (GitHub Pages)
 - **Upstream:** [genieacs/genieacs](https://github.com/genieacs/genieacs) on GitHub
@@ -191,7 +191,7 @@ The chart includes Bitnami MongoDB as an optional subchart (`mongodb.enabled: tr
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `GENIEACS_MONGODB_CONNECTION_URL` | *(required)* | MongoDB connection string |
-| `GENIEACS_UI_JWT_SECRET` | compose: none, required; chart: `changeme` | JWT secret for UI auth — **change in production** |
+| `GENIEACS_UI_JWT_SECRET` | none, required in compose and chart | JWT secret for UI auth; chart takes `uiJwtSecret.existingSecret` or `env.GENIEACS_UI_JWT_SECRET` |
 | `GENIEACS_CWMP_ACCESS_LOG_FILE` | — | Path for CWMP access log |
 | `GENIEACS_NBI_ACCESS_LOG_FILE` | — | Path for NBI access log |
 | `GENIEACS_FS_ACCESS_LOG_FILE` | — | Path for FS access log |
@@ -219,7 +219,9 @@ All `GENIEACS_*` env vars are passed through to the services via `run_with_env.s
 - `charts/genieacs/templates/deployment.yaml` — Main K8s deployment spec
 - `.github/workflows/ci.yml` — Build, test, auto-release pipeline
 - `.github/workflows/upstream-check.yml` — Weekly upstream version monitor
+- `.github/workflows/chart.yml` — Helm chart check (`chart`, a required check): lint, the JWT secret guard, kubeconform, a kind install
 - `.github/workflows/release-chart.yml` — Helm chart packaging and GitHub Pages publishing
+- `.github/workflows/dockerhub-description.yml` — syncs README.md to Docker Hub when it changes
 - `.github/cr.yaml` — Chart-releaser configuration
 - `CHANGELOG.md` — Version history and migration notes
 
@@ -242,7 +244,7 @@ This file should evolve as the project grows:
 ## Security Notice
 
 > **Do not commit secrets to the repository.**
-> docker-compose.yml takes `GENIEACS_UI_JWT_SECRET` from the environment or `.env` and refuses to start without it; never put a default value back. The chart's `changeme` is a placeholder — always change it in production.
+> docker-compose.yml takes `GENIEACS_UI_JWT_SECRET` from the environment or `.env` and refuses to start without it; never put a default value back. The chart has no default either: `genieacs.uiJwtSecret.source` in `_helpers.tpl` fails the render when it is missing, set twice or a placeholder, and `.github/scripts/chart-guard.sh` proves it in CI; never put a default back there.
 > MongoDB authentication is disabled by default for development convenience — enable it for production.
 > Use environment variables or Kubernetes Secrets for all credentials.
 

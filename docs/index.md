@@ -122,9 +122,9 @@ flowchart LR
 
 ## Security
 
-- Set your own `GENIEACS_UI_JWT_SECRET`. The compose file has no default and refuses to start without one; the chart still defaults to `changeme`, so set it there before exposing the console.
+- Set your own `GENIEACS_UI_JWT_SECRET` with `openssl rand -hex 32`. Neither the compose file nor the chart has a default, and both refuse to start without one; the chart also refuses placeholders such as `changeme` and takes the secret from an existing Kubernetes Secret through `uiJwtSecret.existingSecret`.
 - Turn on MongoDB authentication. The compose file has the lines commented; the chart has `mongodb.auth.enabled`.
-- In the chart, keep credentials out of `values.yaml`: `externalMongodb.existingSecret` for the connection string, `envFrom` or `extraEnvVars` for the rest. See [Configuration](configuration.md#security).
+- In the chart, keep credentials out of `values.yaml`: `externalMongodb.existingSecret` for the connection string, `uiJwtSecret.existingSecret` for the UI secret, `envFrom` or `extraEnvVars` for the rest. See [Configuration](configuration.md#security).
 - The pod starts as root for cron and drops every capability except `SETUID` and `SETGID`; the GenieACS processes run as uid 999.
 - To report a security problem, follow the [security policy](https://github.com/GeiserX/genieacs-container/blob/main/SECURITY.md) and do not open a public issue.
 

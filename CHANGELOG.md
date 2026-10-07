@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## Helm Chart [0.6.0] - 2026-10-08
+
+### Changed
+- **No default UI JWT secret** - the chart shipped `GENIEACS_UI_JWT_SECRET: changeme`, so every install that did not override it signed UI logins with a secret anyone can read in this repository. The default is gone: `helm install`, `helm upgrade` and `helm template` now stop before touching the cluster when the secret is missing, set in two places, empty, or a placeholder such as `changeme`, and the error prints the commands to generate one. Upgrading a release that never set it fails until you set it
+- **`uiJwtSecret.existingSecret`** - new: read the secret from a Kubernetes Secret you create (`uiJwtSecret.existingSecretKey` names the key, default `GENIEACS_UI_JWT_SECRET`), so it never sits in a values file or the Deployment spec. `env.GENIEACS_UI_JWT_SECRET` and an `extraEnvVars` entry keep working
+- **NOTES print where the secret came from**, and how to roll the pods after rotating it
+
+### Fixed
+- **A secret supplied through `envFrom` was silently replaced by `changeme`** - the chart rendered `env` (with the default) next to `envFrom`, and Kubernetes lets `env` win. The default is gone; point `uiJwtSecret.existingSecret` at that Secret
+- **Env values are YAML-quoted** - a value containing `"` or `\` no longer breaks the manifest
+
+### CI
+- **`chart` check on every pull request** - `helm lint`, the secret guard (every unsafe input must fail, every supported one must render), kubeconform, and a real install in kind that checks the secret reached the container, the UI answers, `helm test` passes and an upgrade without the secret is refused
+
 ## Helm Chart [0.5.2] - 2026-09-29
 
 ### Changed

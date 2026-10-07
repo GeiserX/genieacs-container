@@ -43,8 +43,25 @@ httpRoute:
         type: PathPrefix
         value: /
 
+# GENIEACS_UI_JWT_SECRET signs the UI login tokens. The chart has no default:
+# install, upgrade and template stop with an error until it is set exactly one
+# way, and an empty value or a placeholder such as `changeme` is refused.
+#
+#   a) From a Secret you create (recommended, the value never sits in a values
+#      file or in the Deployment spec):
+#        kubectl create secret generic genieacs-ui-jwt --namespace genieacs \
+#          --from-literal=GENIEACS_UI_JWT_SECRET="$(openssl rand -hex 32)"
+#        helm ... --set uiJwtSecret.existingSecret=genieacs-ui-jwt
+#   b) As a value:
+#        helm ... --set env.GENIEACS_UI_JWT_SECRET="$(openssl rand -hex 32)"
+#
+# A Secret listed under `envFrom` does not count: the chart cannot see inside
+# it. Point `uiJwtSecret.existingSecret` at that Secret instead.
+uiJwtSecret:
+  existingSecret: ""
+  existingSecretKey: GENIEACS_UI_JWT_SECRET
+
 env:
-  GENIEACS_UI_JWT_SECRET: changeme
   GENIEACS_CWMP_ACCESS_LOG_FILE: /var/log/genieacs/genieacs-cwmp-access.log
   GENIEACS_NBI_ACCESS_LOG_FILE: /var/log/genieacs/genieacs-nbi-access.log
   GENIEACS_FS_ACCESS_LOG_FILE: /var/log/genieacs/genieacs-fs-access.log
@@ -56,12 +73,14 @@ envFrom: []
 # - secretRef:
 #     name: genieacs-secrets
 
+# Extra env entries, for example one read from a Secret. For
+# GENIEACS_UI_JWT_SECRET, `uiJwtSecret.existingSecret` above is the simpler way.
 extraEnvVars: []
-# - name: GENIEACS_UI_JWT_SECRET
+# - name: SOME_SETTING
 #   valueFrom:
 #     secretKeyRef:
-#       name: genieacs-jwt-secret
-#       key: GENIEACS_UI_JWT_SECRET
+#       name: my-secret
+#       key: some-setting
 
 resources:
   limits:
