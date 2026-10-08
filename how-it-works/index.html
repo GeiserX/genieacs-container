@@ -988,6 +988,8 @@ volume writable.</p>
 <p>Nothing is built by hand. When <code>Dockerfile</code>, <code>entrypoint.sh</code> or <code>config/</code> change on <code>main</code>, <code>ci.yml</code>
 builds amd64 and arm64, pushes <code>drumsergio/genieacs:&lt;version&gt;</code> plus per-arch tags, syncs this README to
 Docker Hub and creates the GitHub release. <code>upstream-check.yml</code> watches GenieACS for new tags.
+<code>chart.yml</code> checks the chart on every pull request: <code>helm lint</code>, a render that must fail without a UI JWT
+secret or with a placeholder, kubeconform on the manifests, and a real install in a kind cluster.
 <code>release-chart.yml</code> packages the chart and updates <code>index.yaml</code> on <code>gh-pages</code>, the same branch this site
 is served from. See <a href="../development/">Development</a>.</p>
 

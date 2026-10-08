@@ -1076,9 +1076,9 @@
 </ul>
 <h2 id="security">Security<a class="headerlink" href="#security" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Set your own <code>GENIEACS_UI_JWT_SECRET</code>. The compose file has no default and refuses to start without one; the chart still defaults to <code>changeme</code>, so set it there before exposing the console.</li>
+<li>Set your own <code>GENIEACS_UI_JWT_SECRET</code> with <code>openssl rand -hex 32</code>. Neither the compose file nor the chart has a default, and both refuse to start without one; the chart also refuses placeholders such as <code>changeme</code> and takes the secret from an existing Kubernetes Secret through <code>uiJwtSecret.existingSecret</code>.</li>
 <li>Turn on MongoDB authentication. The compose file has the lines commented; the chart has <code>mongodb.auth.enabled</code>.</li>
-<li>In the chart, keep credentials out of <code>values.yaml</code>: <code>externalMongodb.existingSecret</code> for the connection string, <code>envFrom</code> or <code>extraEnvVars</code> for the rest. See <a href="configuration/#security">Configuration</a>.</li>
+<li>In the chart, keep credentials out of <code>values.yaml</code>: <code>externalMongodb.existingSecret</code> for the connection string, <code>uiJwtSecret.existingSecret</code> for the UI secret, <code>envFrom</code> or <code>extraEnvVars</code> for the rest. See <a href="configuration/#security">Configuration</a>.</li>
 <li>The pod starts as root for cron and drops every capability except <code>SETUID</code> and <code>SETGID</code>; the GenieACS processes run as uid 999.</li>
 <li>To report a security problem, follow the <a href="https://github.com/GeiserX/genieacs-container/blob/main/SECURITY.md">security policy</a> and do not open a public issue.</li>
 </ul>
