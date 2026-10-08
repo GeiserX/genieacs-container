@@ -121,7 +121,7 @@ the check runs whatever the render path.
 {{- fail (printf "\n\n%s is set in more than one place (%s). Keep exactly one: uiJwtSecret.existingSecret, env.%s or an extraEnvVars entry.\n" $name (join ", " $sources) $name) -}}
 {{- end -}}
 {{- range $values -}}
-{{- if or (not .) (has (lower .) $placeholders) -}}
+{{- if or (not (trim .)) (has (lower (trim .)) $placeholders) -}}
 {{- fail (printf "\n\n%s is %q, which is empty or a placeholder anyone can guess. Anyone who knows it can forge a UI login.\n%s\n" $name . $howTo) -}}
 {{- end -}}
 {{- end -}}

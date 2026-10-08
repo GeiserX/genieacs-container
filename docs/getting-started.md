@@ -117,7 +117,8 @@ helm install genieacs genieacs/genieacs \
   --namespace genieacs \
   --create-namespace \
   --set mongodb.enabled=false \
-  --set externalMongodb.url=mongodb://your-mongo-host/genieacs
+  --set externalMongodb.url=mongodb://your-mongo-host/genieacs \
+  --set env.GENIEACS_UI_JWT_SECRET=$(openssl rand -hex 32)
 ```
 
 To use an external MongoDB with the connection string sourced from a
@@ -125,15 +126,19 @@ Kubernetes Secret (recommended for production: keeps credentials out
 of values files and out of the pod spec):
 
 ```bash
+kubectl create namespace genieacs
 kubectl create secret generic genieacs-mongodb \
   --namespace genieacs \
   --from-literal=connectionString="mongodb+srv://user:pass@cluster.example.net/genieacs?retryWrites=true"
+kubectl create secret generic genieacs-ui-jwt \
+  --namespace genieacs \
+  --from-literal=GENIEACS_UI_JWT_SECRET="$(openssl rand -hex 32)"
 
 helm install genieacs genieacs/genieacs \
   --namespace genieacs \
-  --create-namespace \
   --set mongodb.enabled=false \
-  --set externalMongodb.existingSecret=genieacs-mongodb
+  --set externalMongodb.existingSecret=genieacs-mongodb \
+  --set uiJwtSecret.existingSecret=genieacs-ui-jwt
 ```
 
 This pattern integrates with External Secrets Operator, Sealed Secrets,

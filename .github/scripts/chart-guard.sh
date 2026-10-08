@@ -1,9 +1,9 @@
-#!/usr/bin/env bash
+#!/bin/sh
 # Proves the chart's GENIEACS_UI_JWT_SECRET guard both ways: every unsafe input
 # must stop the render with the expected message, every supported input must
 # render and pass kubeconform. Run from the repo root after
 # `helm dependency build charts/genieacs`. Needs helm and kubeconform on PATH.
-set -uo pipefail
+set -u
 
 CHART=charts/genieacs
 OUT=$(mktemp -d)
@@ -13,7 +13,7 @@ fails=0
 
 # expect_fail <case> <message fragment> <helm template args...>
 expect_fail() {
-  local name=$1 want=$2; shift 2
+  name=$1 want=$2; shift 2
   if helm template t "$CHART" "$@" >"$OUT/$name.yaml" 2>"$OUT/$name.err"; then
     echo "FAIL  $name: rendered, but it must be refused"
     fails=$((fails + 1))
@@ -28,7 +28,7 @@ expect_fail() {
 
 # expect_pass <case> <string the manifest must contain> <helm template args...>
 expect_pass() {
-  local name=$1 want=$2; shift 2
+  name=$1 want=$2; shift 2
   if ! helm template t "$CHART" "$@" >"$OUT/$name.yaml" 2>"$OUT/$name.err"; then
     echo "FAIL  $name: refused, but it must render:"
     sed 's/^/      /' "$OUT/$name.err"
@@ -49,6 +49,8 @@ expect_pass() {
 # the shared fragment is the variable name.
 expect_fail defaults          "GENIEACS_UI_JWT_SECRET is not set"
 expect_fail changeme          "GENIEACS_UI_JWT_SECRET" --set env.GENIEACS_UI_JWT_SECRET=changeme
+expect_fail changeme-padded   "placeholder"            --set-string 'env.GENIEACS_UI_JWT_SECRET= changeme '
+expect_fail whitespace-only   "placeholder"            --set-string 'env.GENIEACS_UI_JWT_SECRET=   '
 expect_fail changeme-mixed    "placeholder"            --set env.GENIEACS_UI_JWT_SECRET=ChangeMe
 expect_fail empty             "GENIEACS_UI_JWT_SECRET" --set env.GENIEACS_UI_JWT_SECRET=
 expect_fail docs-placeholder  "GENIEACS_UI_JWT_SECRET" --set env.GENIEACS_UI_JWT_SECRET=your-secret-here

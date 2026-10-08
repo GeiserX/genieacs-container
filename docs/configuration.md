@@ -122,6 +122,7 @@ Unknown keys and wrong types fail at `helm install`; the schema is `charts/genie
   and point `uiJwtSecret.existingSecret` at it, so it never sits in a values file:
 
   ```bash
+  kubectl create namespace genieacs
   kubectl create secret generic genieacs-ui-jwt --namespace genieacs \
     --from-literal=GENIEACS_UI_JWT_SECRET="$(openssl rand -hex 32)"
   helm upgrade --install genieacs genieacs/genieacs --namespace genieacs \
