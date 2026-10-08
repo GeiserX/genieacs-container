@@ -67,5 +67,7 @@ volume writable.
 Nothing is built by hand. When `Dockerfile`, `entrypoint.sh` or `config/` change on `main`, `ci.yml`
 builds amd64 and arm64, pushes `drumsergio/genieacs:<version>` plus per-arch tags, syncs this README to
 Docker Hub and creates the GitHub release. `upstream-check.yml` watches GenieACS for new tags.
+`chart.yml` checks the chart on every pull request: `helm lint`, a render that must fail without a UI JWT
+secret or with a placeholder, kubeconform on the manifests, and a real install in a kind cluster.
 `release-chart.yml` packages the chart and updates `index.yaml` on `gh-pages`, the same branch this site
 is served from. See [Development](development.md).

@@ -7,7 +7,7 @@ releases:
     namespace: genieacs
     chart: genieacs/genieacs
     # renovate: registryUrl=https://geiserx.github.io/genieacs-container
-    version: 0.3.4
+    version: 0.6.0
     labels:
       app: genieacs
     values:

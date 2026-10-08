@@ -53,7 +53,7 @@ docker run -d \
   -p 7567:7567 \
   -p 3000:3000 \
   -e GENIEACS_MONGODB_CONNECTION_URL=mongodb://your-mongo-host/genieacs \
-  -e GENIEACS_UI_JWT_SECRET=your-secret-here \
+  -e GENIEACS_UI_JWT_SECRET="$(openssl rand -hex 32)" \
   drumsergio/genieacs:1.2.16.6
 ```
 
@@ -75,6 +75,21 @@ helm install genieacs genieacs/genieacs \
   --namespace genieacs \
   --create-namespace \
   --set env.GENIEACS_UI_JWT_SECRET=$(openssl rand -hex 32)
+```
+
+The chart has no default `GENIEACS_UI_JWT_SECRET`: without one, `helm install` and `helm upgrade` stop
+before touching the cluster with `GENIEACS_UI_JWT_SECRET is not set` and the commands to make one. The
+`--set` line above passes a random one. To keep it out of values files and the Deployment spec, put it in a
+Secret and name that Secret instead:
+
+```bash
+kubectl create namespace genieacs
+kubectl create secret generic genieacs-ui-jwt --namespace genieacs \
+  --from-literal=GENIEACS_UI_JWT_SECRET="$(openssl rand -hex 32)"
+
+helm install genieacs genieacs/genieacs \
+  --namespace genieacs \
+  --set uiJwtSecret.existingSecret=genieacs-ui-jwt
 ```
 
 What working looks like: `kubectl -n genieacs get pods` shows a `genieacs-...` pod and a
@@ -102,7 +117,8 @@ helm install genieacs genieacs/genieacs \
   --namespace genieacs \
   --create-namespace \
   --set mongodb.enabled=false \
-  --set externalMongodb.url=mongodb://your-mongo-host/genieacs
+  --set externalMongodb.url=mongodb://your-mongo-host/genieacs \
+  --set env.GENIEACS_UI_JWT_SECRET=$(openssl rand -hex 32)
 ```
 
 To use an external MongoDB with the connection string sourced from a
@@ -110,15 +126,19 @@ Kubernetes Secret (recommended for production: keeps credentials out
 of values files and out of the pod spec):
 
 ```bash
+kubectl create namespace genieacs
 kubectl create secret generic genieacs-mongodb \
   --namespace genieacs \
   --from-literal=connectionString="mongodb+srv://user:pass@cluster.example.net/genieacs?retryWrites=true"
+kubectl create secret generic genieacs-ui-jwt \
+  --namespace genieacs \
+  --from-literal=GENIEACS_UI_JWT_SECRET="$(openssl rand -hex 32)"
 
 helm install genieacs genieacs/genieacs \
   --namespace genieacs \
-  --create-namespace \
   --set mongodb.enabled=false \
-  --set externalMongodb.existingSecret=genieacs-mongodb
+  --set externalMongodb.existingSecret=genieacs-mongodb \
+  --set uiJwtSecret.existingSecret=genieacs-ui-jwt
 ```
 
 This pattern integrates with External Secrets Operator, Sealed Secrets,

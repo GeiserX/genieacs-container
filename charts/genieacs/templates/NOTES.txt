@@ -36,6 +36,21 @@ GenieACS has been deployed successfully!
    Then access the UI at: http://127.0.0.1:8080/
 {{- end }}
 
-2. Ensure that the MongoDB database is running and accessible. If you enabled the bundled MongoDB chart, it should be running within your cluster.
+2. The UI login tokens are signed with GENIEACS_UI_JWT_SECRET, taken from
+{{- $jwt := include "genieacs.uiJwtSecret.source" . }}
+{{- if eq $jwt "existingSecret" }}
+   the Secret "{{ .Values.uiJwtSecret.existingSecret }}", key "{{ .Values.uiJwtSecret.existingSecretKey }}".
+   After you rotate it there, restart the pods to pick it up:
 
-3. For further configuration and customization, refer to the GenieACS Container documentation and modify the `values.yaml` as needed.
+     kubectl --namespace {{ .Release.Namespace }} rollout restart deployment/{{ include "genieacs.fullname" . }}
+{{- else if eq $jwt "value" }}
+   env.GENIEACS_UI_JWT_SECRET in your values, so it is stored in the Deployment spec.
+   To keep it out of values files, put it in a Secret and set uiJwtSecret.existingSecret
+   instead (values.yaml shows the commands).
+{{- else }}
+   your extraEnvVars entry named GENIEACS_UI_JWT_SECRET.
+{{- end }}
+
+3. Ensure that the MongoDB database is running and accessible. If you enabled the bundled MongoDB chart, it should be running within your cluster.
+
+4. For further configuration and customization, refer to the GenieACS Container documentation and modify the `values.yaml` as needed.

@@ -295,8 +295,35 @@
         }
       }
     },
+    "uiJwtSecret": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "existingSecret": {
+          "type": "string",
+          "maxLength": 253,
+          "pattern": "^$|^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+        },
+        "existingSecretKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 253,
+          "pattern": "^[-._A-Za-z0-9]+$"
+        }
+      }
+    },
     "env": {
       "type": "object",
+      "properties": {
+        "GENIEACS_UI_JWT_SECRET": {
+          "description": "Signs the UI login tokens. Generate one with: openssl rand -hex 32",
+          "type": "string",
+          "minLength": 1,
+          "not": {
+            "enum": ["changeme", "change-me", "your-secret-here", "CHANGEME"]
+          }
+        }
+      },
       "additionalProperties": {
         "type": "string"
       }

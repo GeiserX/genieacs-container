@@ -21,7 +21,7 @@
 | Variable | Description | Default |
 |----------|-------------|---------|
 | `GENIEACS_MONGODB_CONNECTION_URL` | MongoDB connection string | Auto-configured when `mongodb.enabled=true` |
-| `GENIEACS_UI_JWT_SECRET` | JWT secret for UI authentication | `changeme` |
+| `GENIEACS_UI_JWT_SECRET` | JWT secret for UI authentication | None, required. Generate one with `openssl rand -hex 32` |
 | `GENIEACS_EXT_DIR` | Extension scripts directory | `/opt/genieacs/ext` |
 | `GENIEACS_CWMP_ACCESS_LOG_FILE` | CWMP access log path | `/var/log/genieacs/genieacs-cwmp-access.log` |
 | `GENIEACS_NBI_ACCESS_LOG_FILE` | NBI access log path | `/var/log/genieacs/genieacs-nbi-access.log` |
@@ -63,8 +63,15 @@ httpRoute:
         type: PathPrefix
         value: /
 
-env:
-  GENIEACS_UI_JWT_SECRET: changeme
+# GENIEACS_UI_JWT_SECRET has no default; install and upgrade stop until it is
+# set exactly one way. Recommended: a Secret you create, named here.
+uiJwtSecret:
+  existingSecret: ""   # e.g. genieacs-ui-jwt
+  existingSecretKey: GENIEACS_UI_JWT_SECRET
+
+# Or the value itself (it then sits in the Deployment spec):
+# env:
+#   GENIEACS_UI_JWT_SECRET: <output of openssl rand -hex 32>
 
 # Inject env vars from Kubernetes Secrets/ConfigMaps
 envFrom: []
@@ -110,6 +117,19 @@ Unknown keys and wrong types fail at `helm install`; the schema is `charts/genie
 
 - The container starts as root so it can run cron, then `gosu` drops the GenieACS processes to the unprivileged `genieacs` user, uid 999.
 - In the Helm chart the pod runs as root (`runAsUser: 0`) for the same reason, with every capability dropped except `SETUID` and `SETGID`.
-- Change the default JWT secret (`GENIEACS_UI_JWT_SECRET`, `changeme`) before exposing the console.
+- `GENIEACS_UI_JWT_SECRET` signs the UI login tokens and has no default. The chart refuses to install or
+  upgrade without it, and refuses an empty value or a placeholder such as `changeme`. Keep it in a Secret
+  and point `uiJwtSecret.existingSecret` at it, so it never sits in a values file:
+
+  ```bash
+  kubectl create namespace genieacs
+  kubectl create secret generic genieacs-ui-jwt --namespace genieacs \
+    --from-literal=GENIEACS_UI_JWT_SECRET="$(openssl rand -hex 32)"
+  helm upgrade --install genieacs genieacs/genieacs --namespace genieacs \
+    --set uiJwtSecret.existingSecret=genieacs-ui-jwt
+  ```
+
+  After rotating it in the Secret, run `kubectl -n genieacs rollout restart deployment/genieacs`. A Secret
+  listed under `envFrom` does not satisfy the check, because the chart cannot see inside it.
 - Use `envFrom` or `extraEnvVars` to inject secrets from Kubernetes Secrets instead of writing them into `values.yaml`.
 - Turn on MongoDB authentication for production deployments.

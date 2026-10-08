@@ -34,7 +34,14 @@ spec:
           env:
             {{- range $key, $value := .Values.env }}
             - name: {{ $key }}
-              value: "{{ $value }}"
+              value: {{ $value | toString | quote }}
+            {{- end }}
+            {{- if eq (include "genieacs.uiJwtSecret.source" .) "existingSecret" }}
+            - name: GENIEACS_UI_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.uiJwtSecret.existingSecret | quote }}
+                  key: {{ .Values.uiJwtSecret.existingSecretKey | quote }}
             {{- end }}
             {{- if and .Values.mongodb.enabled .Values.mongodb.auth.enabled }}
             {{- if .Values.mongodb.auth.rootPassword }}
