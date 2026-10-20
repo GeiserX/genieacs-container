@@ -49,6 +49,17 @@ RUN apt-get update \
       supervisor ca-certificates iputils-ping logrotate git wget cron gosu \
  && rm -rf /var/lib/apt/lists/*
 
+# The CA bundle must postdate the eMudhra distrust (20250419~deb12u2); its own line,
+# so a cached layer of the line above cannot keep the old bundle. Node's built-in
+# roots still trust those intermediates, so verify against the system bundle instead.
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends --only-upgrade ca-certificates \
+ && rm -rf /var/lib/apt/lists/* \
+ && v="$(dpkg-query -W -f='${Version}' ca-certificates)" \
+ && dpkg --compare-versions "$v" ge 20250419~deb12u2 \
+ || { echo "ca-certificates ${v:-missing} predates the eMudhra distrust" >&2; exit 1; }
+ENV NODE_OPTIONS=--use-openssl-ca
+
 # Copy Node runtime and GenieACS artefacts from the build stage
 COPY --from=build /usr/local /usr/local
 COPY --from=build /opt/genieacs /opt/genieacs
