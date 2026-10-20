@@ -54,7 +54,10 @@ RUN apt-get update \
 # roots still trust those intermediates, so verify against the system bundle instead.
 RUN apt-get update \
  && apt-get install -y --no-install-recommends --only-upgrade ca-certificates \
- && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/* \
+ && v="$(dpkg-query -W -f='${Version}' ca-certificates)" \
+ && dpkg --compare-versions "$v" ge 20250419~deb12u2 \
+ || { echo "ca-certificates ${v:-missing} predates the eMudhra distrust" >&2; exit 1; }
 ENV NODE_OPTIONS=--use-openssl-ca
 
 # Copy Node runtime and GenieACS artefacts from the build stage
