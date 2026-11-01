@@ -47,12 +47,11 @@ jobs:
         run: docker network prune -f || true
       - name: Start MongoDB (host network, no new bridge network)
         run: |
-          # mongo:7.0, not 8.0: every 8.0.x refuses to start on Linux 6.19 to 7.0.13
-          # (SERVER-121912, TCMalloc rseq), which the hosted runners now run. 7.0
-          # uses the older TCMalloc without rseq, and GenieACS 1.2.16 (driver 4.16)
-          # supports it. Go back to 8.0 once the runner kernel is 7.0.14 or newer.
+          # Same MongoDB as docker-compose.yml, so CI tests what users run. 8.0.x
+          # and 8.3.x refuse to start on Linux 6.19 to 7.0.13 (SERVER-121912),
+          # which the hosted runners run; 9.0.4 starts there.
           docker run -d --name mongo-genieacs-test --network host \
-            mongo:7.0
+            mongo:9.0.4
           echo "Waiting for MongoDB to become healthy..."
           for i in $(seq 1 30); do
             if docker exec mongo-genieacs-test \
@@ -70,7 +69,7 @@ jobs:
       - name: Smoke test
         run: |
           docker run -d --name genieacs --network host \
-            -e GENIEACS_MONGODB_CONNECTION_URL=mongodb://localhost:27017 \
+            -e GENIEACS_MONGODB_CONNECTION_URL=mongodb://localhost:27017/genieacs \
             genieacs:test
           # The shared self-hosted host can be heavily loaded, so container
           # startup alone may take ~60s before GenieACS even spawns. Poll
@@ -78,13 +77,38 @@ jobs:
           for i in $(seq 1 90); do
             if curl -sf http://localhost:3000 > /dev/null 2>&1; then
               echo "GenieACS UI is responding on port 3000"
-              exit 0
+              break
+            fi
+            if [ "$i" -eq 90 ]; then
+              echo "GenieACS failed to start within 180s"
+              docker logs genieacs
+              exit 1
             fi
             sleep 2
           done
-          echo "GenieACS failed to start within 180s"
-          docker logs genieacs
-          exit 1
+      - name: GenieACS writes to and reads from MongoDB
+        run: |
+          # A UI that answers proves little: write a preset through the NBI,
+          # read it back through the NBI, then find it in MongoDB itself.
+          preset='{"weight":0,"channel":"","events":{"0 BOOTSTRAP":true},"precondition":"","configurations":[]}'
+          for i in $(seq 1 30); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' -X PUT -d "$preset" \
+              http://localhost:7557/presets/ci-probe || true)
+            [ "$code" = 200 ] && break
+            if [ "$i" -eq 30 ]; then
+              echo "NBI PUT /presets/ci-probe answered $code"
+              docker exec genieacs tail -n 50 /var/log/genieacs/genieacs-nbi.log
+              exit 1
+            fi
+            sleep 2
+          done
+          read_back=$(curl -sf 'http://localhost:7557/presets/?query=%7B%22_id%22%3A%22ci-probe%22%7D')
+          echo "NBI read: $read_back"
+          echo "$read_back" | grep -q '"_id":"ci-probe"' || { echo "NBI did not return the preset"; exit 1; }
+          in_db=$(docker exec mongo-genieacs-test mongosh genieacs --quiet \
+            --eval 'db.presets.countDocuments({_id: "ci-probe"})')
+          echo "Documents in genieacs.presets: $in_db"
+          [ "$in_db" = 1 ] || { echo "The preset is not in MongoDB"; exit 1; }
       - name: Cleanup
         if: always()
         run: |

@@ -34,7 +34,7 @@ from the second day, dated file names.
 
 - `genieacs`, the image, with the four ports published, a healthcheck on port 3000 (`wget --spider`, 60 s
   start period), the `ext_volume` volume on `/opt/genieacs/ext`, and `depends_on` MongoDB being healthy.
-- `mongo`, `mongo:8.0`, with its data and config volumes, port 27017 exposed to the network only, a
+- `mongo`, `mongo:9.0.4`, with its data and config volumes, port 27017 exposed to the network only, a
   `mongosh` ping healthcheck.
 - `genieacs-sim` (profile `testing`), the simulator, started after `genieacs` is healthy.
 - `genieacs-mcp` (profile `mcp`), the MCP server on 8080, talking to the NBI with the wizard's default

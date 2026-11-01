@@ -82,7 +82,7 @@ The console is upstream GenieACS 1.2.16, served by image `1.2.16.6`. The devices
 - GenieACS built from the upstream `v1.2.16` tag on Node 24, on Debian bookworm-slim. The image tag is the upstream version plus a build number: `1.2.16.6`.
 - Logs rotated for you: each service writes its own file under `/var/log/genieacs`, and cron runs logrotate daily, 30 days kept, compressed.
 - The GenieACS processes run as the unprivileged `genieacs` user (uid 999). Root is used once, to start cron, then dropped with `gosu`.
-- MongoDB is not in the image. Compose starts `mongo:8.0` beside it; the chart bundles a MongoDB subchart for evaluation or takes your own.
+- MongoDB is not in the image. Compose starts `mongo:9.0.4` beside it; the chart bundles a MongoDB subchart for evaluation or takes your own.
 
 ## How it runs
 

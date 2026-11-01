@@ -23,6 +23,14 @@ in MongoDB and the console's filter or a fault is hiding it.
 `docker compose exec genieacs ping -c 1 mongo` checks the network, then `genieacs-cwmp.log` shows any
 `MongoServerError`. With authentication on, the URL must carry `?authSource=admin`.
 
+## MongoDB exits at startup
+
+`docker compose logs mongo` saying `Linux kernel versions 6.19 and newer has a known incompatibility`
+means the compose file still runs `mongo:8.0` on a kernel between 6.19 and 7.0.13. Move to `mongo:9.0.4`
+as described in [Upgrading from `mongo:8.0`](getting-started.md#upgrading-from-mongo80).
+`Wrong mongod version` means the data's feature compatibility version is too old for that MongoDB; the
+same section shows how to raise it.
+
 ## A shell in the container
 
 ```bash

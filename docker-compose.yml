@@ -40,7 +40,10 @@ services:
 
   ### Main GenieACS DB: MongoDB ###
   mongo:
-    image: mongo:8.0
+    # 9.0, not 8.0: MongoDB 8.0 and 8.3 refuse to start on Linux 6.19 to 7.0.13
+    # (SERVER-121912). Coming from mongo:8.0, see "Upgrading from mongo:8.0" in
+    # https://geiserx.github.io/genieacs-container/getting-started/
+    image: mongo:9.0.4
     restart: unless-stopped
     container_name: mongo-genieacs
     environment:
