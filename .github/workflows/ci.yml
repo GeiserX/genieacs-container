@@ -22,9 +22,7 @@ env:
 
 jobs:
   test:
-    # mongo:8.0 refuses to start on kernel 6.19+ (SERVER-121912), which ubuntu-26.04
-    # (ubuntu-latest since 2026-11) ships. Move back once a fixed Mongo release is out.
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     # NOTE: We intentionally do NOT use `services:` here. On the shared
     # self-hosted runner host, the Actions runner auto-creates a bridge
     # network for service containers, drawing a subnet from Docker's default
@@ -49,8 +47,12 @@ jobs:
         run: docker network prune -f || true
       - name: Start MongoDB (host network, no new bridge network)
         run: |
+          # mongo:7.0, not 8.0: every 8.0.x refuses to start on Linux 6.19 to 7.0.13
+          # (SERVER-121912, TCMalloc rseq), which the hosted runners now run. 7.0
+          # uses the older TCMalloc without rseq, and GenieACS 1.2.16 (driver 4.16)
+          # supports it. Go back to 8.0 once the runner kernel is 7.0.14 or newer.
           docker run -d --name mongo-genieacs-test --network host \
-            mongo:8.0
+            mongo:7.0
           echo "Waiting for MongoDB to become healthy..."
           for i in $(seq 1 30); do
             if docker exec mongo-genieacs-test \
