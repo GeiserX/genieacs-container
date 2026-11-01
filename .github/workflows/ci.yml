@@ -22,7 +22,9 @@ env:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    # mongo:8.0 refuses to start on kernel 6.19+ (SERVER-121912), which ubuntu-26.04
+    # (ubuntu-latest since 2026-11) ships. Move back once a fixed Mongo release is out.
+    runs-on: ubuntu-24.04
     # NOTE: We intentionally do NOT use `services:` here. On the shared
     # self-hosted runner host, the Actions runner auto-creates a bridge
     # network for service containers, drawing a subnet from Docker's default
