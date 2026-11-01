@@ -1,0 +1,24 @@
+name: mongo kernel probe (temporary)
+on:
+  push:
+    branches: [fix/compose-mongo-kernel]
+jobs:
+  probe:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, ubuntu-24.04]
+        tag: ["8.0.34", "8.3.11", "8.3.13", "9.0.4", "7.0.45"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - run: uname -a; cat /etc/os-release | head -2
+      - run: |
+          docker run -d --name m mongo:${{ matrix.tag }}
+          for i in $(seq 1 30); do
+            if docker exec m mongosh --quiet --eval 'db.runCommand({ping:1}).ok' 2>/dev/null | grep -q 1; then
+              echo "RESULT ${{ matrix.tag }} STARTED on $(uname -r)"; docker exec m mongosh --quiet --eval 'db.version()'; exit 0
+            fi
+            if [ "$(docker inspect -f '{{.State.Running}}' m)" != true ]; then break; fi
+            sleep 2
+          done
+          echo "RESULT ${{ matrix.tag }} FAILED on $(uname -r)"; docker logs m 2>&1 | tail -20; exit 1
