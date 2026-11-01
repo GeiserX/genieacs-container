@@ -959,7 +959,7 @@ from the second day, dated file names.</p>
 <ul>
 <li><code>genieacs</code>, the image, with the four ports published, a healthcheck on port 3000 (<code>wget --spider</code>, 60 s
   start period), the <code>ext_volume</code> volume on <code>/opt/genieacs/ext</code>, and <code>depends_on</code> MongoDB being healthy.</li>
-<li><code>mongo</code>, <code>mongo:8.0</code>, with its data and config volumes, port 27017 exposed to the network only, a
+<li><code>mongo</code>, <code>mongo:9.0.4</code>, with its data and config volumes, port 27017 exposed to the network only, a
   <code>mongosh</code> ping healthcheck.</li>
 <li><code>genieacs-sim</code> (profile <code>testing</code>), the simulator, started after <code>genieacs</code> is healthy.</li>
 <li><code>genieacs-mcp</code> (profile <code>mcp</code>), the MCP server on 8080, talking to the NBI with the wizard's default

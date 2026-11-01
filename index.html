@@ -1039,7 +1039,7 @@
 <li>GenieACS built from the upstream <code>v1.2.16</code> tag on Node 24, on Debian bookworm-slim. The image tag is the upstream version plus a build number: <code>1.2.16.6</code>.</li>
 <li>Logs rotated for you: each service writes its own file under <code>/var/log/genieacs</code>, and cron runs logrotate daily, 30 days kept, compressed.</li>
 <li>The GenieACS processes run as the unprivileged <code>genieacs</code> user (uid 999). Root is used once, to start cron, then dropped with <code>gosu</code>.</li>
-<li>MongoDB is not in the image. Compose starts <code>mongo:8.0</code> beside it; the chart bundles a MongoDB subchart for evaluation or takes your own.</li>
+<li>MongoDB is not in the image. Compose starts <code>mongo:9.0.4</code> beside it; the chart bundles a MongoDB subchart for evaluation or takes your own.</li>
 </ul>
 <h2 id="how-it-runs">How it runs<a class="headerlink" href="#how-it-runs" title="Permanent link">&para;</a></h2>
 <pre class="mermaid"><code>flowchart LR

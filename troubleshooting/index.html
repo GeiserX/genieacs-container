@@ -729,6 +729,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#mongodb-exits-at-startup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MongoDB exits at startup
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#a-shell-in-the-container" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -881,6 +892,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#mongodb-exits-at-startup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MongoDB exits at startup
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#a-shell-in-the-container" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -945,6 +967,13 @@ in MongoDB and the console's filter or a fault is hiding it.</p>
 <h2 id="mongodb-connection">MongoDB connection<a class="headerlink" href="#mongodb-connection" title="Permanent link">&para;</a></h2>
 <p><code>docker compose exec genieacs ping -c 1 mongo</code> checks the network, then <code>genieacs-cwmp.log</code> shows any
 <code>MongoServerError</code>. With authentication on, the URL must carry <code>?authSource=admin</code>.</p>
+<h2 id="mongodb-exits-at-startup">MongoDB exits at startup<a class="headerlink" href="#mongodb-exits-at-startup" title="Permanent link">&para;</a></h2>
+<p><code>docker compose logs mongo</code> saying <code>Linux kernel versions 6.19 and newer has a known incompatibility</code>
+with <code>mongo:8.0</code> means a kernel that reports 6.19 to 7.0.x: move to <code>mongo:9.0.4</code> as described in
+<a href="../getting-started/#upgrading-from-mongo80">Upgrading from <code>mongo:8.0</code></a>. If <code>mongo:9.0.4</code> says the same,
+the kernel really is between 6.19 and 7.0.13; upgrade it to 7.0.14 or newer.
+<code>Wrong mongod version</code> means the data's feature compatibility version is too old for that MongoDB; the
+same section shows how to raise it.</p>
 <h2 id="a-shell-in-the-container">A shell in the container<a class="headerlink" href="#a-shell-in-the-container" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>genieacs<span class="w"> </span>/bin/bash
 </code></pre></div>
