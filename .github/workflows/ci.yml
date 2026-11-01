@@ -47,9 +47,10 @@ jobs:
         run: docker network prune -f || true
       - name: Start MongoDB (host network, no new bridge network)
         run: |
-          # Same MongoDB as docker-compose.yml, so CI tests what users run. 8.0.x
-          # and 8.3.x refuse to start on Linux 6.19 to 7.0.13 (SERVER-121912),
-          # which the hosted runners run; 9.0.4 starts there.
+          # Same MongoDB as docker-compose.yml, so CI tests what users run. The
+          # runners' Ubuntu kernel reports 7.0.0 but carries the 7.0.14 rseq fix;
+          # 8.0.34 and 8.3.13 refuse it (SERVER-121912, SERVER-136848), 9.0.4 starts.
+          echo "Kernel: $(uname -r), $(cat /proc/version_signature 2>/dev/null || echo 'no version_signature')"
           docker run -d --name mongo-genieacs-test --network host \
             mongo:9.0.4
           echo "Waiting for MongoDB to become healthy..."
@@ -92,7 +93,7 @@ jobs:
           # read it back through the NBI, then find it in MongoDB itself.
           preset='{"weight":0,"channel":"","events":{"0 BOOTSTRAP":true},"precondition":"","configurations":[]}'
           for i in $(seq 1 30); do
-            code=$(curl -s -o /dev/null -w '%{http_code}' -X PUT -d "$preset" \
+            code=$(curl -s -m 10 -o /dev/null -w '%{http_code}' -X PUT -d "$preset" \
               http://localhost:7557/presets/ci-probe || true)
             [ "$code" = 200 ] && break
             if [ "$i" -eq 30 ]; then
@@ -102,10 +103,10 @@ jobs:
             fi
             sleep 2
           done
-          read_back=$(curl -sf 'http://localhost:7557/presets/?query=%7B%22_id%22%3A%22ci-probe%22%7D')
+          read_back=$(curl -sf -m 10 'http://localhost:7557/presets/?query=%7B%22_id%22%3A%22ci-probe%22%7D')
           echo "NBI read: $read_back"
           echo "$read_back" | grep -q '"_id":"ci-probe"' || { echo "NBI did not return the preset"; exit 1; }
-          in_db=$(docker exec mongo-genieacs-test mongosh genieacs --quiet \
+          in_db=$(timeout 30 docker exec mongo-genieacs-test mongosh genieacs --quiet \
             --eval 'db.presets.countDocuments({_id: "ci-probe"})')
           echo "Documents in genieacs.presets: $in_db"
           [ "$in_db" = 1 ] || { echo "The preset is not in MongoDB"; exit 1; }

@@ -43,11 +43,17 @@ Two optional services sit behind profiles:
 
 ### Upgrading from `mongo:8.0`
 
-Until November 2026 the compose file ran `mongo:8.0`. It now runs `mongo:9.0.4`, because every MongoDB
-8.0 and 8.3 release refuses to start on Linux kernels 6.19 through 7.0.13
-([SERVER-121912](https://jira.mongodb.org/browse/SERVER-121912)), and 9.0.4 starts there. MongoDB
-supports going from 8.0 straight to 9.0, and your existing volume keeps working. Going back to 7.0 does
-not: it refuses data written by 8.0.
+Until November 2026 the compose file ran `mongo:8.0`. MongoDB from 8.0 on crashes on Linux kernels 6.19
+through 7.0.13, so it stops at startup on them
+([SERVER-121912](https://jira.mongodb.org/browse/SERVER-121912)). The 8.0 and 8.3 releases out today
+(8.0.34, 8.3.13) also stop on kernels that already carry the fix but still report `7.0.0`, such as Ubuntu's
+([SERVER-136848](https://jira.mongodb.org/browse/SERVER-136848)); 9.0.4 recognizes those and starts.
+So the compose file now runs `mongo:9.0.4`. A kernel that really is between 6.19 and 7.0.13 has to be
+upgraded to 7.0.14 or newer: no MongoDB from 8.0 on runs there.
+
+MongoDB supports going from 8.0 straight to 9.0, and your existing volume keeps working. Going back to
+7.0 does not: it refuses data written by 8.0. With MongoDB authentication on, add
+`-u root -p <password> --authenticationDatabase admin` to the `mongodump` and `mongosh` commands below.
 
 1. If `mongo:8.0` still starts on your host, back up and check the data's feature compatibility version
    (FCV):
@@ -61,8 +67,9 @@ not: it refuses data written by 8.0.
    It must say `8.0`. If it says `7.0` (a volume first created by `mongo:7.0`), raise it first:
    `db.adminCommand({setFeatureCompatibilityVersion: "8.0", confirm: true})`.
 2. Change the `mongo` image to `mongo:9.0.4` (or fetch the new `docker-compose.yml`), then
-   `docker compose up -d`. MongoDB 9.0 opens the data at FCV 8.0, and GenieACS works as before.
-3. Once you are happy, finish the upgrade. After this step, going back to `mongo:8.0` needs the backup.
+   `docker compose up -d`. MongoDB 9.0 opens the data at FCV 8.0. Check that the console shows your
+   devices and that they still inform before the next step.
+3. Finish the upgrade. After this step, going back to `mongo:8.0` needs the backup.
 
    ```bash
    docker compose exec mongo mongosh --quiet --eval \

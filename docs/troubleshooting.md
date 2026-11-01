@@ -26,8 +26,9 @@ in MongoDB and the console's filter or a fault is hiding it.
 ## MongoDB exits at startup
 
 `docker compose logs mongo` saying `Linux kernel versions 6.19 and newer has a known incompatibility`
-means the compose file still runs `mongo:8.0` on a kernel between 6.19 and 7.0.13. Move to `mongo:9.0.4`
-as described in [Upgrading from `mongo:8.0`](getting-started.md#upgrading-from-mongo80).
+with `mongo:8.0` means a kernel that reports 6.19 to 7.0.x: move to `mongo:9.0.4` as described in
+[Upgrading from `mongo:8.0`](getting-started.md#upgrading-from-mongo80). If `mongo:9.0.4` says the same,
+the kernel really is between 6.19 and 7.0.13; upgrade it to 7.0.14 or newer.
 `Wrong mongod version` means the data's feature compatibility version is too old for that MongoDB; the
 same section shows how to raise it.
 
