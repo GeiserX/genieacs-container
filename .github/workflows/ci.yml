@@ -47,8 +47,12 @@ jobs:
         run: docker network prune -f || true
       - name: Start MongoDB (host network, no new bridge network)
         run: |
+          # mongo:7.0, not 8.0: every 8.0.x refuses to start on Linux 6.19 to 7.0.13
+          # (SERVER-121912, TCMalloc rseq), which the hosted runners now run. 7.0
+          # uses the older TCMalloc without rseq, and GenieACS 1.2.16 (driver 4.16)
+          # supports it. Go back to 8.0 once the runner kernel is 7.0.14 or newer.
           docker run -d --name mongo-genieacs-test --network host \
-            mongo:8.0
+            mongo:7.0
           echo "Waiting for MongoDB to become healthy..."
           for i in $(seq 1 30); do
             if docker exec mongo-genieacs-test \
