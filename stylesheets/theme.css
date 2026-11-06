@@ -46,6 +46,12 @@
   font-family: SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
   font-weight: 700;
   letter-spacing: -0.02em;
+}
+
+/* The light name only on the dark scheme: Zensical's modern header takes the
+   page background, so on the light scheme it is white and #f7f8f6 would
+   vanish. There the name keeps the default text colour. */
+[data-md-color-scheme="slate"] .md-header__topic:first-child .md-ellipsis {
   color: #f7f8f6;
 }
 

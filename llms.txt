@@ -1,0 +1,15 @@
+# genieacs-container
+
+> Docker image and Helm chart for GenieACS, the open-source TR-069 ACS. GenieACS and MongoDB on Docker Compose or Kubernetes.
+
+## Documentation
+
+- [Configuration](<https://geiserx.github.io/genieacs-container/configuration/index.md>)
+- [Development](<https://geiserx.github.io/genieacs-container/development/index.md>)
+- [Your first device](<https://geiserx.github.io/genieacs-container/first-device/index.md>)
+- [Getting started](<https://geiserx.github.io/genieacs-container/getting-started/index.md>)
+- [How it works](<https://geiserx.github.io/genieacs-container/how-it-works/index.md>)
+- [Home](<https://geiserx.github.io/genieacs-container/index.md>)
+- [Related projects](<https://geiserx.github.io/genieacs-container/related/index.md>)
+- [Troubleshooting](<https://geiserx.github.io/genieacs-container/troubleshooting/index.md>)
+- [Usage](<https://geiserx.github.io/genieacs-container/usage/index.md>)
