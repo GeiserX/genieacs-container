@@ -4,34 +4,42 @@ name: Docs
 # repository: index.yaml and artifacthub-repo.yml live there (the .tgz packages
 # are release assets that index.yaml points at), and `helm repo add
 # https://geiserx.github.io/<repo>` reads them from the Pages URL. Pumperly,
-# LynxPrompt, genieacs-container and duplicacy-container are in this case.
+# LynxPrompt and genieacs-container are in this case.
 #
 # The site therefore stays on the branch flow: build strictly, rsync the site
 # into a checkout of gh-pages with the Helm files excluded, commit, push. Never
-# `mkdocs gh-deploy` (it replaces the whole branch and deletes the chart index)
-# and never the artifact flow of docs-pages.yml (Pages then stops serving the
-# branch, so a chart release would publish an index nobody can fetch until the
-# next docs deploy). The `gh-pages` concurrency group is shared with the chart
-# release workflow (helm/chart-releaser-action) so the two never push at once:
-# add the same `concurrency` block to release-chart.yml.
+# the artifact flow of docs-pages.yml (Pages then stops serving the branch, so
+# a chart release would publish an index nobody can fetch until the next docs
+# deploy). The `gh-pages` concurrency group is shared with the chart release
+# workflow (helm/chart-releaser-action) so the two never push at once: add the
+# same `concurrency` block to that workflow's push job, AND a run-level
+# `concurrency: {group: chart-${{ github.ref }}, cancel-in-progress: false}` at
+# the top of release-chart.yml. GitHub keeps one pending job per group, so
+# without the run-level lock two chart releases queued on gh-pages beside a
+# docs deploy cancel each other (a cancelled chart run is covered by the newer
+# one: chart-releaser releases every chart changed since the last tag).
 #
-# Copied from Pumperly's docs.yml, which has run this way since 2026-09.
+# Zensical has no --site-dir flag and site_dir must stay inside the repo, so
+# the deploy job builds into the default site/ and rsyncs from there.
 on:
   push:
     branches:
       - main
     paths:
       - 'docs/**'
-      - 'mkdocs.yml'
+      - 'zensical.toml'
       - '.github/workflows/docs.yml'
+      - '.github/scripts/site-check.py'
       # Add every file a page includes with pymdownx.snippets.
   # No paths filter on pull requests: a filtered-out required check blocks the merge.
   pull_request:
   workflow_dispatch:
 
-# One run at a time per ref, in push order, never cancelled, so an older push
-# whose build finishes later cannot deploy last. The deploy job also holds the
-# `gh-pages` group shared with the chart release.
+# One run at a time per ref, never cancelled. GitHub keeps one running and one
+# pending run per group, and a run that joins later replaces the pending one.
+# Runs join in the order GitHub queues them, which is not promised to be push
+# order, so a newer push is likely, not certain, to deploy last.
+# The deploy job also holds the `gh-pages` group shared with the chart release.
 concurrency:
   group: pages-${{ github.ref }}
   cancel-in-progress: false
@@ -46,7 +54,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          # This job never pushes; a persisted token is readable by pip and every MkDocs plugin.
+          # This job never pushes; a persisted token is readable by pip and by the build.
           persist-credentials: false
 
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
@@ -59,7 +67,10 @@ jobs:
         run: pip install -r docs/requirements-docs.txt
 
       - name: Build
-        run: mkdocs build --strict
+        run: python -m zensical build --clean --strict
+
+      - name: Check the built site
+        run: python -I .github/scripts/site-check.py site
 
   deploy:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
@@ -84,7 +95,10 @@ jobs:
         run: pip install -r docs/requirements-docs.txt
 
       - name: Build
-        run: mkdocs build --strict --site-dir "$RUNNER_TEMP/site"
+        run: python -m zensical build --clean --strict
+
+      - name: Check the built site
+        run: python -I .github/scripts/site-check.py site
 
       - name: Check out gh-pages
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -102,7 +116,7 @@ jobs:
             --exclude 'index.yaml' \
             --exclude 'artifacthub-repo.yml' \
             --exclude '*.tgz' \
-            "$RUNNER_TEMP/site/" gh-pages/
+            site/ gh-pages/
           touch gh-pages/.nojekyll
           test -f gh-pages/index.yaml
           test -f gh-pages/artifacthub-repo.yml

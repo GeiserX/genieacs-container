@@ -1,0 +1,109 @@
+# Generated from mkdocs.yml by mkdocs-to-zensical.py; the why of every block is in
+# new-repo/templates/zensical.toml. Edit this file, not mkdocs.yml, which is gone.
+
+[project]
+site_name = "genieacs-container"
+site_url = "https://geiserx.github.io/genieacs-container/"
+site_description = "Docker image and Helm chart for GenieACS, the open-source TR-069 ACS. GenieACS and MongoDB on Docker Compose or Kubernetes."
+repo_url = "https://github.com/GeiserX/genieacs-container"
+repo_name = "GeiserX/genieacs-container"
+edit_uri = "edit/main/docs/"
+strict = true
+extra_css = ["stylesheets/theme.css"]
+exclude_docs = """
+[A-Z]*.md
+design/
+research/
+notes/
+requirements-docs.txt
+"""
+nav = [
+  { Home = "index.md" },
+  { "Get started" = [
+      { "Getting started" = "getting-started.md" },
+      { "Your first device" = "first-device.md" },
+      { Usage = "usage.md" },
+    ] },
+  { Reference = [
+      { Configuration = "configuration.md" },
+      { "How it works" = "how-it-works.md" },
+      { Troubleshooting = "troubleshooting.md" },
+      { "Related projects" = "related.md" },
+    ] },
+  { Development = "development.md" },
+]
+
+[project.validation]
+invalid_links = true
+invalid_link_anchors = true
+
+[project.theme]
+language = "en"
+variant = "modern"
+logo = "images/logo.svg"
+favicon = "images/icon.svg"
+font = false
+features = [
+  "navigation.tabs",
+  "navigation.sections",
+  "navigation.expand",
+  "navigation.top",
+  "content.code.copy",
+  "content.action.edit",
+  "search.highlight",
+  "toc.follow",
+  "navigation.instant",
+  "navigation.instant.progress",
+  "content.action.copy",
+]
+icon.repo = "fontawesome/brands/github"
+
+[[project.theme.palette]]
+scheme = "slate"
+primary = "custom"
+accent = "custom"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to light mode"
+
+[[project.theme.palette]]
+scheme = "default"
+primary = "custom"
+accent = "custom"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to dark mode"
+
+[[project.extra.social]]
+icon = "fontawesome/brands/github"
+link = "https://github.com/GeiserX/genieacs-container"
+
+[[project.extra.social]]
+icon = "fontawesome/brands/docker"
+link = "https://hub.docker.com/r/drumsergio/genieacs"
+
+[[project.extra.social]]
+icon = "simple/artifacthub"
+link = "https://artifacthub.io/packages/helm/genieacs/genieacs"
+
+[project.plugins.search]
+
+[project.plugins.llmstxt.sections]
+Documentation = ["*.md", "*/*.md"]
+
+[project.markdown_extensions]
+admonition = {}
+"pymdownx.details" = {}
+"pymdownx.superfences".custom_fences = [
+  { name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format" },
+]
+"pymdownx.tabbed".alternate_style = true
+"pymdownx.highlight".anchor_linenums = true
+"pymdownx.inlinehilite" = {}
+"pymdownx.snippets".base_path = [".", "docs"]
+"pymdownx.snippets".check_paths = true
+"pymdownx.mark" = {}
+attr_list = {}
+md_in_html = {}
+"pymdownx.emoji".emoji_index = "zensical.extensions.emoji.twemoji"
+"pymdownx.emoji".emoji_generator = "zensical.extensions.emoji.to_svg"
+tables = {}
+toc.permalink = true
