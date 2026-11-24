@@ -2,7 +2,7 @@
 
 ## The console does not open
 
-Port 3000 answers nothing for the first 30 to 60 seconds while GenieACS waits for MongoDB; `docker compose ps` shows `genieacs` as `starting`, then `healthy`. If it stays unhealthy, `docker compose logs genieacs` shows supervisord, and `docker compose exec genieacs tail -n 50 /var/log/genieacs/genieacs-ui.log` shows the reason, most often the MongoDB URL. Each service's errors are in its own file under `/var/log/genieacs/`; see [Usage](<https://geiserx.github.io/genieacs-container/usage/#logs>).
+Port 3000 answers nothing for the first 30 to 60 seconds while GenieACS waits for MongoDB; `docker compose ps` shows `genieacs` as `starting`, then `healthy`. If it stays unhealthy, `docker compose logs genieacs` shows supervisord, and `docker compose exec genieacs tail -n 50 /var/log/genieacs/genieacs-ui.log` shows the reason, most often the MongoDB URL. Each service's errors are in its own file under `/var/log/genieacs/`; see [Usage](<https://geiserx.github.io/genieacs-container/usage/index.md#logs>).
 
 ## A device never appears
 
@@ -14,7 +14,7 @@ The ACS URL must reach port 7547 of the host, not `localhost` on the device. Che
 
 ## MongoDB exits at startup
 
-`docker compose logs mongo` saying `Linux kernel versions 6.19 and newer has a known incompatibility` with `mongo:8.0` means a kernel that reports 6.19 to 7.0.x: move to `mongo:9.0.4` as described in [Upgrading from `mongo:8.0`](<https://geiserx.github.io/genieacs-container/getting-started/#upgrading-from-mongo80>). If `mongo:9.0.4` says the same, the kernel really is between 6.19 and 7.0.13; upgrade it to 7.0.14 or newer. `Wrong mongod version` means the data's feature compatibility version is too old for that MongoDB; the same section shows how to raise it.
+`docker compose logs mongo` saying `Linux kernel versions 6.19 and newer has a known incompatibility` with `mongo:8.0` means a kernel that reports 6.19 to 7.0.x: move to `mongo:9.0.4` as described in [Upgrading from `mongo:8.0`](<https://geiserx.github.io/genieacs-container/getting-started/index.md#upgrading-from-mongo80>). If `mongo:9.0.4` says the same, the kernel really is between 6.19 and 7.0.13; upgrade it to 7.0.14 or newer. `Wrong mongod version` means the data's feature compatibility version is too old for that MongoDB; the same section shows how to raise it.
 
 ## A shell in the container
 

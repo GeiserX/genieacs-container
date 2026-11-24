@@ -159,4 +159,4 @@ helmfile -f examples/helmfile.yaml apply
 
 ### Chart values
 
-The chart values that matter are on [Configuration](<https://geiserx.github.io/genieacs-container/configuration/#helm-chart-values>); the full file is [values.yaml](<https://github.com/GeiserX/genieacs-container/blob/main/charts/genieacs/values.yaml>).
+The chart values that matter are on [Configuration](<https://geiserx.github.io/genieacs-container/configuration/index.md#helm-chart-values>); the full file is [values.yaml](<https://github.com/GeiserX/genieacs-container/blob/main/charts/genieacs/values.yaml>).

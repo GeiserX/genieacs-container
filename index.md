@@ -6,7 +6,7 @@
 
 ---
 
-**genieacs-container** is a Docker image and a Helm chart for [GenieACS](<https://genieacs.com>), the open-source TR-069 ACS that manages routers, ONTs and other CPE devices. GenieACS itself ships no container. This image runs its four services in one container, for amd64 and arm64, with MongoDB beside it: on one host with [Docker Compose](<https://geiserx.github.io/genieacs-container/getting-started/#docker-compose>), or on Kubernetes with the [Helm chart](<https://geiserx.github.io/genieacs-container/getting-started/#kubernetes-with-helm>). It packages GenieACS 1.2.16 and does not change it.
+**genieacs-container** is a Docker image and a Helm chart for [GenieACS](<https://genieacs.com>), the open-source TR-069 ACS that manages routers, ONTs and other CPE devices. GenieACS itself ships no container. This image runs its four services in one container, for amd64 and arm64, with MongoDB beside it: on one host with [Docker Compose](<https://geiserx.github.io/genieacs-container/getting-started/index.md#docker-compose>), or on Kubernetes with the [Helm chart](<https://geiserx.github.io/genieacs-container/getting-started/index.md#kubernetes-with-helm>). It packages GenieACS 1.2.16 and does not change it.
 
 This address is also the Helm chart repository: `helm repo add genieacs https://geiserx.github.io/genieacs-container`.
 
@@ -33,7 +33,7 @@ This address is also the Helm chart repository: `helm repo add genieacs https://
 
 ## What it looks like
 
-The console is upstream GenieACS 1.2.16, served by image `1.2.16.6`. The devices in these screenshots are the [bundled simulator](<https://geiserx.github.io/genieacs-container/first-device/#the-simulator>) (`--profile testing`), so you can see the same thing without hardware.
+The console is upstream GenieACS 1.2.16, served by image `1.2.16.6`. The devices in these screenshots are the [bundled simulator](<https://geiserx.github.io/genieacs-container/first-device/index.md#the-simulator>) (`--profile testing`), so you can see the same thing without hardware.
 
 ![The GenieACS Devices list: six simulated CPEs with serial number, product class, software version, IP, SSID, last inform and tags, and the filter bar above them](<https://geiserx.github.io/genieacs-container/images/screenshots/devices.png>)
 
@@ -85,8 +85,8 @@ flowchart LR
     UI --> DB
 ```
 
-- On one host: `docker-compose.yml` runs the image and MongoDB on a private network, exposes the four ports, and keeps two optional services behind profiles: the [simulator](<https://geiserx.github.io/genieacs-container/first-device/#the-simulator>) (`--profile testing`) and the [MCP server](<https://geiserx.github.io/genieacs-container/usage/#optional-compose-services>) (`--profile mcp`).
-- On Kubernetes: the chart makes one Deployment, one Service per port, a PersistentVolumeClaim for extension scripts, and, when you turn them on, an Ingress or a Gateway API HTTPRoute for the console and a PodDisruptionBudget. MongoDB comes from the bundled subchart, or from your own instance through `externalMongodb.url` or a Kubernetes Secret. See [Getting started](<https://geiserx.github.io/genieacs-container/getting-started/#kubernetes-with-helm>) and [How it works](<https://geiserx.github.io/genieacs-container/how-it-works/index.md>).
+- On one host: `docker-compose.yml` runs the image and MongoDB on a private network, exposes the four ports, and keeps two optional services behind profiles: the [simulator](<https://geiserx.github.io/genieacs-container/first-device/index.md#the-simulator>) (`--profile testing`) and the [MCP server](<https://geiserx.github.io/genieacs-container/usage/index.md#optional-compose-services>) (`--profile mcp`).
+- On Kubernetes: the chart makes one Deployment, one Service per port, a PersistentVolumeClaim for extension scripts, and, when you turn them on, an Ingress or a Gateway API HTTPRoute for the console and a PodDisruptionBudget. MongoDB comes from the bundled subchart, or from your own instance through `externalMongodb.url` or a Kubernetes Secret. See [Getting started](<https://geiserx.github.io/genieacs-container/getting-started/index.md#kubernetes-with-helm>) and [How it works](<https://geiserx.github.io/genieacs-container/how-it-works/index.md>).
 - Health: a Compose healthcheck on port 3000, and liveness and readiness probes in the chart.
 - Upgrades: the tag moves when upstream GenieACS moves. Change the pin, `docker compose up -d` or `helm upgrade`, and the data in MongoDB stays. The [changelog](<https://github.com/GeiserX/genieacs-container/blob/main/CHANGELOG.md>) lists every image and chart release.
 
@@ -101,7 +101,7 @@ flowchart LR
 
 - Set your own `GENIEACS_UI_JWT_SECRET` with `openssl rand -hex 32`. Neither the compose file nor the chart has a default, and both refuse to start without one; the chart also refuses placeholders such as `changeme` and takes the secret from an existing Kubernetes Secret through `uiJwtSecret.existingSecret`.
 - Turn on MongoDB authentication. The compose file has the lines commented; the chart has `mongodb.auth.enabled`.
-- In the chart, keep credentials out of `values.yaml`: `externalMongodb.existingSecret` for the connection string, `uiJwtSecret.existingSecret` for the UI secret, `envFrom` or `extraEnvVars` for the rest. See [Configuration](<https://geiserx.github.io/genieacs-container/configuration/#security>).
+- In the chart, keep credentials out of `values.yaml`: `externalMongodb.existingSecret` for the connection string, `uiJwtSecret.existingSecret` for the UI secret, `envFrom` or `extraEnvVars` for the rest. See [Configuration](<https://geiserx.github.io/genieacs-container/configuration/index.md#security>).
 - The pod starts as root for cron and drops every capability except `SETUID` and `SETGID`; the GenieACS processes run as uid 999.
 - To report a security problem, follow the [security policy](<https://github.com/GeiserX/genieacs-container/blob/main/SECURITY.md>) and do not open a public issue.
 

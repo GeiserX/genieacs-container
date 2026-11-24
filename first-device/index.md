@@ -15,7 +15,7 @@ On its first visit, http://localhost:3000 shows the initialization wizard. Leave
 3. Turn on periodic inform if the device has the switch. The `inform` preset the wizard created sets the interval to 300 seconds on the first inform.
 4. Reboot the device or save the settings. Its first inform reaches port 7547 within a minute, and the device appears under Devices with its serial number, product class and software version.
 
-What working looks like: the Devices list has a row for the device, Last inform shows seconds ago, and `docker compose exec genieacs tail -n 20 /var/log/genieacs/genieacs-cwmp-access.log` shows a line per inform. If the row never appears, see [Troubleshooting](<https://geiserx.github.io/genieacs-container/troubleshooting/#a-device-never-appears>).
+What working looks like: the Devices list has a row for the device, Last inform shows seconds ago, and `docker compose exec genieacs tail -n 20 /var/log/genieacs/genieacs-cwmp-access.log` shows a line per inform. If the row never appears, see [Troubleshooting](<https://geiserx.github.io/genieacs-container/troubleshooting/index.md#a-device-never-appears>).
 
 ## The simulator
 
@@ -37,6 +37,6 @@ services:
 
 ## What you can do with a device
 
-Open a device from the list. The page shows what the wizard configured: last inform, serial number, product class, OUI, manufacturer, hardware and software versions, MAC, IP, WLAN settings and the LAN hosts table, and the task buttons: Reboot, Reset, Push file, Delete. Tags on the device page are what [presets](<https://geiserx.github.io/genieacs-container/usage/#presets-and-files>) target.
+Open a device from the list. The page shows what the wizard configured: last inform, serial number, product class, OUI, manufacturer, hardware and software versions, MAC, IP, WLAN settings and the LAN hosts table, and the task buttons: Reboot, Reset, Push file, Delete. Tags on the device page are what [presets](<https://geiserx.github.io/genieacs-container/usage/index.md#presets-and-files>) target.
 
 ![One device's page with its parameters and the LAN hosts table](<https://geiserx.github.io/genieacs-container/images/screenshots/device.png>)
